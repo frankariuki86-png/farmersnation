@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FARMERS NATION - Turning Farms Into Fortunes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>FARMERS NATION</span>
+                </div>
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#farming-guides">Farming Guides</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#marketplace">Marketplace</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Empowering Farmers Across Africa</h1>
+            <p class="hero-subtitle">Learn, grow, and profit with FARMERS NATION. Your complete guide to modern sustainable farming.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollTo('#farming-guides')">Start Farming</button>
+                <button class="btn btn-secondary" onclick="openWhatsApp()">Join Community</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Farming Guides Section -->
+    <section class="farming-guides" id="farming-guides">
+        <div class="container">
+            <div class="section-header">
+                <h2>Farming Guides</h2>
+                <p>Master the essentials of modern farming with our comprehensive guides</p>
+            </div>
+            <div class="guides-grid">
+                <div class="guide-card">
+                    <div class="guide-icon">
+                        <i class="fas fa-feather"></i>
+                    </div>
+                    <h3>Poultry Farming</h3>
+                    <p>Learn modern poultry techniques including layer and broiler farming. Maximize egg and meat production with sustainable practices.</p>
+                    <a href="#" class="read-more">Learn More →</a>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-icon">
+                        <i class="fas fa-goat"></i>
+                    </div>
+                    <h3>Goat Farming</h3>
+                    <p>Start your goat farming business with proven breeding and management strategies. Increase profitability with proper nutrition and care.</p>
+                    <a href="#" class="read-more">Learn More →</a>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-icon">
+                        <i class="fas fa-cow"></i>
+                    </div>
+                    <h3>Dairy Farming</h3>
+                    <p>Establish a profitable dairy operation. Master milk production, quality control, and market access for maximum returns.</p>
+                    <a href="#" class="read-more">Learn More →</a>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-icon">
+                        <i class="fas fa-wheat-awn"></i>
+                    </div>
+                    <h3>Crop Farming</h3>
+                    <p>Grow high-value crops with modern techniques. Learn soil management, pest control, and seasonal planning for better yields.</p>
+                    <a href="#" class="read-more">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog" id="blog">
+        <div class="container">
+            <div class="section-header">
+                <h2>Latest Blog Posts</h2>
+                <p>Stay updated with farming tips, trends, and success stories</p>
+            </div>
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="blog-image" style="background: linear-gradient(135deg, #1e5a24 0%, #2d8a3d 100%);"></div>
+                    <div class="blog-content">
+                        <span class="blog-date">March 15, 2026</span>
+                        <h3>Sustainable Poultry Farming in 2026</h3>
+                        <p>Discover modern techniques for eco-friendly poultry farming that increase profits while protecting the environment.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-image" style="background: linear-gradient(135deg, #84c341 0%, #a8d66e 100%);"></div>
+                    <div class="blog-content">
+                        <span class="blog-date">March 12, 2026</span>
+                        <h3>Top 5 Cash Crops for African Farmers</h3>
+                        <p>Maximize your income by growing the most profitable crops suited to African climate and market demand.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-image" style="background: linear-gradient(135deg, #6b8e23 0%, #9acd32 100%);"></div>
+                    <div class="blog-content">
+                        <span class="blog-date">March 10, 2026</span>
+                        <h3>Building a Profitable Goat Farm</h3>
+                        <p>Complete guide to starting and scaling a goat farming business with minimal investment and maximum returns.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-image" style="background: linear-gradient(135deg, #556b2f 0%, #6b8e23 100%);"></div>
+                    <div class="blog-content">
+                        <span class="blog-date">March 8, 2026</span>
+                        <h3>Soil Health: The Foundation of Farming</h3>
+                        <p>Learn how to improve soil quality naturally. Healthy soil means bigger harvests and sustainable farming practices.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-image" style="background: linear-gradient(135deg, #228b22 0%, #32cd32 100%);"></div>
+                    <div class="blog-content">
+                        <span class="blog-date">March 5, 2026</span>
+                        <h3>Water Management in Dry Seasons</h3>
+                        <p>Master irrigation techniques and water conservation strategies to farm successfully during dry seasons.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-image" style="background: linear-gradient(135deg, #d2b48c 0%, #daa520 100%);"></div>
+                    <div class="blog-content">
+                        <span class="blog-date">March 1, 2026</span>
+                        <h3>Dairy Farming Success Stories</h3>
+                        <p>Inspiring tales from farmers who turned dairy farming into thriving businesses. Learn from their journey and strategies.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketplace Section -->
+    <section class="marketplace" id="marketplace">
+        <div class="container">
+            <div class="section-header">
+                <h2>Farmers Marketplace</h2>
+                <p>Buy and sell quality agricultural products directly from farmers</p>
+            </div>
+            <div class="marketplace-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);"></div>
+                    <div class="product-info">
+                        <h4>Fresh Eggs</h4>
+                        <p class="product-desc">Farm-fresh eggs from free-range poultry</p>
+                        <div class="product-meta">
+                            <span class="price">₦2,500 per crate</span>
+                            <span class="supplier">Kaduna Farm</span>
+                        </div>
+                        <button class="btn btn-small" onclick="openWhatsApp('eggs')">Contact Seller</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);"></div>
+                    <div class="product-info">
+                        <h4>Broiler Chickens</h4>
+                        <p class="product-desc">Healthy, well-fed broiler chickens ready for market</p>
+                        <div class="product-meta">
+                            <span class="price">₦4,000 per bird</span>
+                            <span class="supplier">Oyo Livestock Hub</span>
+                        </div>
+                        <button class="btn btn-small" onclick="openWhatsApp('chickens')">Contact Seller</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #ff9999 0%, #ffcccc 100%);"></div>
+                    <div class="product-info">
+                        <h4>Goats (For Breeding)</h4>
+                        <p class="product-desc">Premium breed goats perfect for dairy and meat</p>
+                        <div class="product-meta">
+                            <span class="price">₦45,000 per goat</span>
+                            <span class="supplier">Kano Goat Farm</span>
+                        </div>
+                        <button class="btn btn-small" onclick="openWhatsApp('goats')">Contact Seller</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #90ee90 0%, #98fb98 100%);"></div>
+                    <div class="product-info">
+                        <h4>Fresh Vegetables</h4>
+                        <p class="product-desc">Organic tomatoes, lettuce, peppers & more</p>
+                        <div class="product-meta">
+                            <span class="price">₦500-1,500 per kg</span>
+                            <span class="supplier">Lagos Urban Farm</span>
+                        </div>
+                        <button class="btn btn-small" onclick="openWhatsApp('vegetables')">Contact Seller</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #87ceeb 0%, #b0e0e6 100%);"></div>
+                    <div class="product-info">
+                        <h4>Fresh Milk</h4>
+                        <p class="product-desc">Pure, fresh dairy milk delivered daily</p>
+                        <div class="product-meta">
+                            <span class="price">₦250 per litre</span>
+                            <span class="supplier">Yaba Dairy Cooperative</span>
+                        </div>
+                        <button class="btn btn-small" onclick="openWhatsApp('milk')">Contact Seller</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #daa520 0%, #bdb76b 100%);"></div>
+                    <div class="product-info">
+                        <h4>Maize & Grains</h4>
+                        <p class="product-desc">High-quality certified maize and other grains</p>
+                        <div class="product-meta">
+                            <span class="price">₦12,000 per bag</span>
+                            <span class="supplier">Plateau Grain Hub</span>
+                        </div>
+                        <button class="btn btn-small" onclick="openWhatsApp('grains')">Contact Seller</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community">
+        <div class="container">
+            <div class="community-content">
+                <div class="community-text">
+                    <h2>Join Our Farming Community</h2>
+                    <p>Connect with thousands of progressive farmers across Africa. Share experiences, ask questions, and grow together.</p>
+                    <ul class="community-benefits">
+                        <li><i class="fas fa-check"></i> Daily farming tips and updates</li>
+                        <li><i class="fas fa-check"></i> Direct market access for your products</li>
+                        <li><i class="fas fa-check"></i> Expert advice from experienced farmers</li>
+                        <li><i class="fas fa-check"></i> Networking opportunities with agribusiness partners</li>
+                        <li><i class="fas fa-check"></i> Exclusive deals on farming inputs</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="openWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Join on WhatsApp
+                    </button>
+                </div>
+                <div class="community-icon">
+                    <i class="fas fa-people-group"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get In Touch</h2>
+                <p>Have questions? We're here to help. Reach out to us anytime.</p>
+            </div>
+            <div class="contact-content">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+
+                <div class="contact-info">
+                    <div class="info-card">
+                        <i class="fas fa-phone"></i>
+                        <h4>Phone</h4>
+                        <p>+234 800 123 4567</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fab fa-whatsapp"></i>
+                        <h4>WhatsApp</h4>
+                        <p><a href="https://wa.me/2348001234567" target="_blank">Chat with us</a></p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-envelope"></i>
+                        <h4>Email</h4>
+                        <p>info@farmersnation.com</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h4>Location</h4>
+                        <p>Lagos, Nigeria</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h5>About FARMERS NATION</h5>
+                    <p>Turning Farms Into Fortunes. We're committed to empowering African farmers with knowledge, tools, and market access for sustainable growth and profitability.</p>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#farming-guides">Farming Guides</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#marketplace">Marketplace</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Follow Us</h5>
+                    <div class="social-links">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FARMERS NATION. All rights reserved. | Turning Farms Into Fortunes</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
