@@ -85,6 +85,25 @@ const incrementViews = async (guideId) => {
     }
 };
 
+// Record download
+const recordDownload = async (guideId, userId) => {
+    try {
+        // Update guide download count
+        await pool.query(
+            'UPDATE farming_guides SET downloads = downloads + 1 WHERE id = $1',
+            [guideId]
+        );
+
+        // Update purchased guide download count
+        await pool.query(
+            'UPDATE purchased_guides SET download_count = download_count + 1, accessed_at = CURRENT_TIMESTAMP WHERE user_id = $1 AND guide_id = $2',
+            [userId, guideId]
+        );
+    } catch (error) {
+        throw error;
+    }
+};
+
 module.exports = {
     createGuide,
     getPublishedGuides,
@@ -93,5 +112,6 @@ module.exports = {
     getGuidesByCategory,
     updateGuide,
     deleteGuide,
-    incrementViews
+    incrementViews,
+    recordDownload
 };

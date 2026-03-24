@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import BlogPage from './pages/BlogPage';
+import GuidesPage from './pages/GuidesPage';
 import MarketplacePage from './pages/MarketplacePage';
 
 // Protected Route Component
@@ -34,6 +35,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/guides" element={<GuidesPage />} />
         <Route path="/marketplace" element={<MarketplacePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

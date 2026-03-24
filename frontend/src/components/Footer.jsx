@@ -54,16 +54,40 @@ export default function Footer() {
             &copy; 2026 FARMERS NATION. All rights reserved. | Turning Farms Into Fortunes
           </p>
           <div className="flex gap-4">
-            <a href="#" className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition"
+            >
               <FaFacebook />
             </a>
-            <a href="#" className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition">
+            <a
+              href="https://x.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X"
+              className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition"
+            >
               <FaTwitter />
             </a>
-            <a href="#" className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition">
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition"
+            >
               <FaInstagram />
             </a>
-            <a href="#" className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition">
+            <a
+              href="https://youtube.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+              className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition"
+            >
               <FaYoutube />
             </a>
           </div>

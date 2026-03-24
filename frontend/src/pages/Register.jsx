@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { authAPI } from '../services/api';
-import useAuthStore from '../store/authStore';
 import Footer from '../components/Footer';
 
 export default function Register() {
@@ -15,13 +14,12 @@ export default function Register() {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuthStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await authAPI.register(formData);
+      await authAPI.register(formData);
       toast.success('Registration successful! Please login.');
       navigate('/login');
     } catch (error) {

@@ -8,6 +8,7 @@ export default function AdminMarketplace() {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -40,6 +41,7 @@ export default function AdminMarketplace() {
     setFormData({ name: '', description: '', category: '', price: '', unit: '', stock: '', isAvailable: true, image: null });
     setEditingId(null);
     setShowForm(false);
+    setImagePreview(null);
   };
 
   const handleEdit = (item) => {
@@ -55,6 +57,9 @@ export default function AdminMarketplace() {
       isAvailable: item.is_available !== false,
       image: null
     });
+    if (item.image_url) {
+      setImagePreview(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/..${item.image_url}`);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -189,8 +194,24 @@ export default function AdminMarketplace() {
             type="file"
             accept=".jpg,.jpeg,.png,.webp"
             className="w-full p-2 border rounded"
-            onChange={(e) => setFormData({ ...formData, image: e.target.files?.[0] || null })}
+            onChange={(e) => {
+              const file = e.target.files?.[0] || null;
+              setFormData({ ...formData, image: file });
+              if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  setImagePreview(reader.result);
+                };
+                reader.readAsDataURL(file);
+              }
+            }}
           />
+          {imagePreview && (
+            <div className="mt-4">
+              <p className="text-sm font-semibold text-gray-700 mb-2">Image Preview:</p>
+              <img src={imagePreview} alt="Preview" className="w-full h-48 object-cover rounded border" />
+            </div>
+          )}
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
@@ -215,6 +236,7 @@ export default function AdminMarketplace() {
         <table className="w-full">
           <thead className="bg-primary-green text-white">
             <tr>
+              <th className="px-6 py-3 text-left">Photo</th>
               <th className="px-6 py-3 text-left">Product</th>
               <th className="px-6 py-3 text-left">Category</th>
               <th className="px-6 py-3 text-left">Price</th>
@@ -225,6 +247,19 @@ export default function AdminMarketplace() {
           <tbody>
             {products.map((item) => (
               <tr key={item.id} className="border-b hover:bg-gray-50">
+                <td className="px-6 py-3">
+                  {item.image_url ? (
+                    <img
+                      src={`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/..${item.image_url}`}
+                      alt={item.name}
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
+                      <span>No Image</span>
+                    </div>
+                  )}
+                </td>
                 <td className="px-6 py-3">{item.name}</td>
                 <td className="px-6 py-3 capitalize">{item.category}</td>
                 <td className="px-6 py-3">KSH {item.price}</td>
@@ -241,7 +276,7 @@ export default function AdminMarketplace() {
             ))}
             {!products.length && (
               <tr>
-                <td className="px-6 py-4 text-gray-500" colSpan={5}>No products found.</td>
+                <td className="px-6 py-4 text-gray-500" colSpan={6}>No products found.</td>
               </tr>
             )}
           </tbody>

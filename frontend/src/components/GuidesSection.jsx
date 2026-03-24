@@ -50,7 +50,7 @@ export default function GuidesSection() {
             return (
               <Link
                 key={guide.id}
-                to={`/guides?category=${guide.category}`}
+                to="/guides"
                 className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition"
               >
                 <div className="flex justify-center mb-4 text-4xl text-light-green">

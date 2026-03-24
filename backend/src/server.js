@@ -1,6 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const pino = require('pino');
+const pinoHttp = require('pino-http');
 require('dotenv').config();
 
 // Import routes
@@ -12,13 +16,52 @@ const paymentRoutes = require('./routes/paymentRoutes');
 
 const app = express();
 
+const logger = pino({
+    level: process.env.LOG_LEVEL || 'info'
+});
+
+// Security middleware - Helmet sets various HTTP headers
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
+            scriptSrc: ["'self'"],
+            imgSrc: ["'self'", 'data:', 'https:'],
+            connectSrc: ["'self'", 'http://localhost:3000', process.env.FRONTEND_URL || 'http://localhost:3000'],
+            fontSrc: ["'self'", 'fonts.gstatic.com', 'data:']
+        }
+    }
+}));
+
+// Rate limiting - strict limits for auth endpoints
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+    message: 'Too many authentication attempts, please try again later',
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // Limit login to 5 attempts per 15 minutes
+    message: 'Too many login attempts, please try again later',
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+app.use(pinoHttp({ logger }));
+
 // Middleware
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     credentials: true
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+// Request body limits
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -28,8 +71,9 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'Server is running', timestamp: new Date() });
 });
 
-// API Routes
-app.use('/api/auth', authRoutes);
+// API Routes - with rate limiting on auth
+app.use('/api/auth/login', loginLimiter);
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/guides', guideRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/marketplace', marketplaceRoutes);
@@ -52,7 +96,7 @@ app.get('/api', (req, res) => {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    req.log.error({ err }, 'Unhandled error');
     res.status(500).json({ error: 'Something went wrong', message: err.message });
 });
 
@@ -64,10 +108,7 @@ app.use((req, res) => {
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`\n🚀 FARMERS NATION Backend Server running on port ${PORT}`);
-    console.log(`📍 Location: Busia, Kenya`);
-    console.log(`📱 Phone: ${process.env.PHONE_NUMBER || '0725822740'}`);
-    console.log(`✅ Environment: ${process.env.NODE_ENV || 'development'}\n`);
+    logger.info({ port: PORT, env: process.env.NODE_ENV || 'development' }, 'Backend server started');
 });
 
 module.exports = app;

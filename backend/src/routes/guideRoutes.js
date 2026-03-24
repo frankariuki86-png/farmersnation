@@ -6,9 +6,11 @@ const {
     getGuidesByCategory,
     getGuide,
     updateGuide,
-    deleteGuide
+    deleteGuide,
+    downloadGuide
 } = require('../controllers/guideController');
 const { verifyToken, verifyAdmin } = require('../middleware/auth');
+const { validateGuide, validateId } = require('../middleware/validation');
 const upload = require('../middleware/upload');
 
 const router = express.Router();
@@ -17,11 +19,15 @@ const router = express.Router();
 router.get('/', getGuides);
 router.get('/admin/all', verifyAdmin, getAllGuidesAdmin);
 router.get('/category/:category', getGuidesByCategory);
-router.get('/:id', getGuide);
+
+// Download route (requires authentication and payment) - MUST be before /:id
+router.get('/:id/download', verifyToken, validateId, downloadGuide);
+
+router.get('/:id', validateId, getGuide);
 
 // Admin routes
-router.post('/', verifyAdmin, upload.single('ebook'), createGuide);
-router.put('/:id', verifyAdmin, upload.single('ebook'), updateGuide);
-router.delete('/:id', verifyAdmin, deleteGuide);
+router.post('/', verifyAdmin, upload.single('ebook'), validateGuide, createGuide);
+router.put('/:id', verifyAdmin, upload.single('ebook'), validateId, validateGuide, updateGuide);
+router.delete('/:id', verifyAdmin, validateId, deleteGuide);
 
 module.exports = router;

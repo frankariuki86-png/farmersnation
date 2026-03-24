@@ -186,6 +186,8 @@ export default function AdminGuides() {
                 <th className="px-6 py-3 text-left">Title</th>
                 <th className="px-6 py-3 text-left">Category</th>
                 <th className="px-6 py-3 text-left">Status</th>
+                <th className="px-6 py-3 text-left">Views</th>
+                <th className="px-6 py-3 text-left">Downloads</th>
                 <th className="px-6 py-3 text-center">Actions</th>
               </tr>
             </thead>
@@ -200,6 +202,12 @@ export default function AdminGuides() {
                     }`}>
                       {guide.is_published ? 'Published' : 'Draft'}
                     </span>
+                  </td>
+                  <td className="px-6 py-3">
+                    <span className="text-sm font-semibold">👁️ {guide.views || 0}</span>
+                  </td>
+                  <td className="px-6 py-3">
+                    <span className="text-sm font-semibold">📥 {guide.downloads || 0}</span>
                   </td>
                   <td className="px-6 py-3 flex justify-center gap-3">
                     <button className="text-blue-600 hover:text-blue-800" onClick={() => handleEdit(guide)}>

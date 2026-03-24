@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { authAPI } from '../services/api';
 import useAuthStore from '../store/authStore';
-import HeroSection from '../components/HeroSection';
 import Footer from '../components/Footer';
 
 export default function Login() {
