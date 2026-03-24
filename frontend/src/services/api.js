@@ -80,4 +80,33 @@ export const paymentsAPI = {
   checkAccess: (guideId) => api.get(`/payments/access/${guideId}`),
 };
 
+// Training endpoints
+export const trainingAPI = {
+  register: (data) => api.post('/trainings', data),
+  getAllAdmin: () => api.get('/trainings/admin/all'),
+  updateStatus: (id, data) => api.put(`/trainings/admin/${id}/status`, data),
+  delete: (id) => api.delete(`/trainings/admin/${id}`),
+};
+
+// Farm visit endpoints
+export const farmVisitAPI = {
+  create: (data) => api.post('/farm-visits', data),
+  getAllAdmin: () => api.get('/farm-visits/admin/all'),
+  updateStatus: (id, data) => api.put(`/farm-visits/admin/${id}/status`, data),
+  delete: (id) => api.delete(`/farm-visits/admin/${id}`),
+};
+
+// Business plan endpoints
+export const businessPlanAPI = {
+  getAll: () => api.get('/business-plans'),
+  getAllAdmin: () => api.get('/business-plans/admin/all'),
+  create: (data) => api.post('/business-plans', data, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  update: (id, data) => api.put(`/business-plans/${id}`, data, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  delete: (id) => api.delete(`/business-plans/${id}`),
+};
+
 export default api;

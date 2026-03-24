@@ -133,6 +133,95 @@ const validateProduct = [
     handleValidationErrors
 ];
 
+// Training registration validation
+const validateTrainingRegistration = [
+    body('fullName')
+        .trim()
+        .notEmpty()
+        .withMessage('Full name is required')
+        .isLength({ min: 3, max: 255 })
+        .withMessage('Full name must be between 3 and 255 characters'),
+    body('phone')
+        .trim()
+        .matches(/^([+]?[0-9]{10,15})$/)
+        .withMessage('Please provide a valid phone number'),
+    body('trainingTopic')
+        .trim()
+        .notEmpty()
+        .withMessage('Training topic is required')
+        .isLength({ min: 3, max: 255 })
+        .withMessage('Training topic must be between 3 and 255 characters'),
+    body('email')
+        .optional({ checkFalsy: true })
+        .isEmail()
+        .withMessage('Please provide a valid email address'),
+    handleValidationErrors
+];
+
+// Farm visit booking validation
+const validateFarmVisitBooking = [
+    body('requesterName')
+        .trim()
+        .notEmpty()
+        .withMessage('Requester name is required')
+        .isLength({ min: 3, max: 255 })
+        .withMessage('Requester name must be between 3 and 255 characters'),
+    body('phone')
+        .trim()
+        .matches(/^([+]?[0-9]{10,15})$/)
+        .withMessage('Please provide a valid phone number'),
+    body('visitType')
+        .trim()
+        .isIn(['visit_my_farm', 'visit_your_farm'])
+        .withMessage('Visit type must be visit_my_farm or visit_your_farm'),
+    body('farmLocation')
+        .trim()
+        .notEmpty()
+        .withMessage('Farm location is required')
+        .isLength({ min: 3, max: 255 })
+        .withMessage('Farm location must be between 3 and 255 characters'),
+    body('email')
+        .optional({ checkFalsy: true })
+        .isEmail()
+        .withMessage('Please provide a valid email address'),
+    handleValidationErrors
+];
+
+// Business plan validation
+const validateBusinessPlan = [
+    body('title')
+        .trim()
+        .notEmpty()
+        .withMessage('Title is required')
+        .isLength({ min: 5, max: 255 })
+        .withMessage('Title must be between 5 and 255 characters'),
+    body('summary')
+        .trim()
+        .notEmpty()
+        .withMessage('Summary is required')
+        .isLength({ min: 10 })
+        .withMessage('Summary must be at least 10 characters'),
+    body('content')
+        .optional({ checkFalsy: true })
+        .trim()
+        .isLength({ min: 30 })
+        .withMessage('Content must be at least 30 characters when provided'),
+    body('category')
+        .trim()
+        .notEmpty()
+        .withMessage('Category is required'),
+    handleValidationErrors
+];
+
+// Generic status update validation
+const validateStatusUpdate = [
+    body('status')
+        .trim()
+        .isIn(['pending', 'approved', 'rejected', 'completed'])
+        .withMessage('Status must be pending, approved, rejected, or completed'),
+    handleValidationErrors
+];
+
 // Admin user validation
 const validateAdminUser = [
     body('email')
@@ -162,6 +251,10 @@ module.exports = {
     validateGuide,
     validateBlog,
     validateProduct,
+    validateTrainingRegistration,
+    validateFarmVisitBooking,
+    validateBusinessPlan,
+    validateStatusUpdate,
     validateAdminUser,
     validateId,
     handleValidationErrors

@@ -24,6 +24,9 @@ export default function Navbar() {
             <Link to="/guides" className="hover:text-light-green transition">Guides</Link>
             <Link to="/blog" className="hover:text-light-green transition">Blog</Link>
             <Link to="/marketplace" className="hover:text-light-green transition">Marketplace</Link>
+            <Link to="/training" className="hover:text-light-green transition">Training</Link>
+            <Link to="/farm-visits" className="hover:text-light-green transition">Farm Visits</Link>
+            <Link to="/business-plans" className="hover:text-light-green transition">Business Plans</Link>
             <Link to="/contact" className="hover:text-light-green transition">Contact</Link>
 
             {user ? (
@@ -75,6 +78,9 @@ export default function Navbar() {
             <Link to="/guides" className="block hover:text-light-green transition py-2">Guides</Link>
             <Link to="/blog" className="block hover:text-light-green transition py-2">Blog</Link>
             <Link to="/marketplace" className="block hover:text-light-green transition py-2">Marketplace</Link>
+            <Link to="/training" className="block hover:text-light-green transition py-2">Training</Link>
+            <Link to="/farm-visits" className="block hover:text-light-green transition py-2">Farm Visits</Link>
+            <Link to="/business-plans" className="block hover:text-light-green transition py-2">Business Plans</Link>
             <Link to="/contact" className="block hover:text-light-green transition py-2">Contact</Link>
 
             {user ? (

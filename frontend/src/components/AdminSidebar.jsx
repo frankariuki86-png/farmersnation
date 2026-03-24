@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaBook, FaBloggerB, FaStore, FaUsers, FaSignOutAlt, FaBars, FaTimes } from 'react-icons/fa';
+import { FaBook, FaBloggerB, FaStore, FaUsers, FaSignOutAlt, FaBars, FaTimes, FaChalkboardTeacher, FaTractor, FaChartLine } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/authStore';
 
@@ -13,6 +13,9 @@ export default function AdminSidebar() {
     { name: 'Farming Guides', icon: FaBook, path: '/admin/guides' },
     { name: 'Blog Posts', icon: FaBloggerB, path: '/admin/blogs' },
     { name: 'Marketplace', icon: FaStore, path: '/admin/marketplace' },
+    { name: 'Training', icon: FaChalkboardTeacher, path: '/admin/training' },
+    { name: 'Farm Visits', icon: FaTractor, path: '/admin/farm-visits' },
+    { name: 'Business Plans', icon: FaChartLine, path: '/admin/business-plans' },
     { name: 'Users', icon: FaUsers, path: '/admin/users' },
   ];
 

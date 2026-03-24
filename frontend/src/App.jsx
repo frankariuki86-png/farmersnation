@@ -11,6 +11,9 @@ import AdminDashboard from './pages/AdminDashboard';
 import BlogPage from './pages/BlogPage';
 import GuidesPage from './pages/GuidesPage';
 import MarketplacePage from './pages/MarketplacePage';
+import TrainingPage from './pages/TrainingPage';
+import FarmVisitPage from './pages/FarmVisitPage';
+import BusinessPlansPage from './pages/BusinessPlansPage';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -37,6 +40,9 @@ function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/guides" element={<GuidesPage />} />
         <Route path="/marketplace" element={<MarketplacePage />} />
+        <Route path="/training" element={<TrainingPage />} />
+        <Route path="/farm-visits" element={<FarmVisitPage />} />
+        <Route path="/business-plans" element={<BusinessPlansPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

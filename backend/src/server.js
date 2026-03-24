@@ -13,6 +13,9 @@ const guideRoutes = require('./routes/guideRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const marketplaceRoutes = require('./routes/marketplaceRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const trainingRoutes = require('./routes/trainingRoutes');
+const farmVisitRoutes = require('./routes/farmVisitRoutes');
+const businessPlanRoutes = require('./routes/businessPlanRoutes');
 
 const app = express();
 
@@ -78,6 +81,9 @@ app.use('/api/guides', guideRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/marketplace', marketplaceRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/trainings', trainingRoutes);
+app.use('/api/farm-visits', farmVisitRoutes);
+app.use('/api/business-plans', businessPlanRoutes);
 
 // Root endpoint
 app.get('/api', (req, res) => {
@@ -89,7 +95,10 @@ app.get('/api', (req, res) => {
             guides: '/api/guides',
             blogs: '/api/blogs',
             marketplace: '/api/marketplace',
-            payments: '/api/payments'
+            payments: '/api/payments',
+            trainings: '/api/trainings',
+            farmVisits: '/api/farm-visits',
+            businessPlans: '/api/business-plans'
         }
     });
 });

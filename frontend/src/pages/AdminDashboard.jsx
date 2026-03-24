@@ -4,6 +4,9 @@ import AdminGuides from './AdminGuides';
 import AdminBlogs from './AdminBlogs';
 import AdminMarketplace from './AdminMarketplace';
 import AdminUsers from './AdminUsers';
+import AdminTraining from './AdminTraining';
+import AdminFarmVisits from './AdminFarmVisits';
+import AdminBusinessPlans from './AdminBusinessPlans';
 import { useLocation } from 'react-router-dom';
 
 export default function AdminDashboard() {
@@ -26,6 +29,18 @@ export default function AdminDashboard() {
 
     if (path.includes('/admin/users')) {
       return <AdminUsers />;
+    }
+
+    if (path.includes('/admin/training')) {
+      return <AdminTraining />;
+    }
+
+    if (path.includes('/admin/farm-visits')) {
+      return <AdminFarmVisits />;
+    }
+
+    if (path.includes('/admin/business-plans')) {
+      return <AdminBusinessPlans />;
     }
 
     return <AdminGuides />; // Default to guides
