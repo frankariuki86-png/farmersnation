@@ -56,9 +56,44 @@ const loginLimiter = rateLimit({
 
 app.use(pinoHttp({ logger }));
 
+const normalizeOrigin = (value) => value ? value.trim().replace(/\/$/, '') : value;
+
+const configuredOrigins = (process.env.FRONTEND_URL || 'http://localhost:3000')
+    .split(',')
+    .map(normalizeOrigin)
+    .filter(Boolean);
+
+const isAllowedOrigin = (origin) => {
+    if (!origin) return true;
+
+    const normalized = normalizeOrigin(origin);
+    if (configuredOrigins.includes(normalized)) {
+        return true;
+    }
+
+    // Allow Vercel preview/production frontend URLs if enabled.
+    if ((process.env.ALLOW_VERCEL_PREVIEWS || '').toLowerCase() === 'true') {
+        try {
+            if (/\.vercel\.app$/i.test(new URL(normalized).hostname)) {
+                return true;
+            }
+        } catch (error) {
+            return false;
+        }
+    }
+
+    return false;
+};
+
 // Middleware
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: (origin, callback) => {
+        if (isAllowedOrigin(origin)) {
+            return callback(null, true);
+        }
+
+        return callback(new Error('Not allowed by CORS'));
+    },
     credentials: true
 }));
 
