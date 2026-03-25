@@ -3,6 +3,7 @@ const {
 	registerUser,
 	loginUser,
 	getUserProfile,
+	updateProfile,
 	listAdminUsers,
 	createAdmin,
 	updateAdmin,
@@ -12,6 +13,7 @@ const { verifyToken, verifyAdmin } = require('../middleware/auth');
 const {
 	validateRegister,
 	validateLogin,
+	validateProfileUpdate,
 	validateAdminUser,
 	validateId
 } = require('../middleware/validation');
@@ -24,6 +26,7 @@ router.post('/login', validateLogin, loginUser);
 
 // Protected routes
 router.get('/profile', verifyToken, getUserProfile);
+router.put('/profile', verifyToken, validateProfileUpdate, updateProfile);
 
 // Admin user management routes
 router.get('/admin-users', verifyAdmin, listAdminUsers);

@@ -2,6 +2,7 @@ const {
     register,
     login,
     getUserById,
+    updateUserProfile,
     getAdminUsers,
     createAdminUser,
     updateAdminUser,
@@ -51,6 +52,23 @@ const getUserProfile = async (req, res) => {
         }
 
         res.status(200).json({ success: true, data: user });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Update own user profile
+const updateProfile = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { email, firstName, lastName, phone } = req.body;
+
+        const updated = await updateUserProfile(userId, email, firstName, lastName, phone);
+        if (!updated) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json({ success: true, data: updated, message: 'Profile updated successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -119,6 +137,7 @@ module.exports = {
     registerUser,
     loginUser,
     getUserProfile,
+    updateProfile,
     listAdminUsers,
     createAdmin,
     updateAdmin,

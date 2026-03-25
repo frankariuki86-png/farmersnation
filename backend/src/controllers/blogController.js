@@ -1,9 +1,17 @@
 const BlogModel = require('../models/Blog');
 
+const toBoolean = (value, fallback = false) => {
+    if (value === undefined || value === null || value === '') return fallback;
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'string') return value.toLowerCase() === 'true';
+    return Boolean(value);
+};
+
 // Create blog (Admin only)
 const createBlog = async (req, res) => {
     try {
         const { title, excerpt, content, category, isPublished } = req.body;
+        const publish = toBoolean(isPublished, false);
         const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
         const blog = await BlogModel.createBlog(
@@ -13,7 +21,7 @@ const createBlog = async (req, res) => {
             imageUrl,
             req.user.id,
             category,
-            isPublished || false
+            publish
         );
 
         res.status(201).json({ success: true, data: blog });
@@ -83,7 +91,7 @@ const updateBlog = async (req, res) => {
             content || existingBlog.content,
             imageUrl,
             category || existingBlog.category,
-            isPublished !== undefined ? isPublished : existingBlog.is_published
+            isPublished !== undefined ? toBoolean(isPublished, existingBlog.is_published) : existingBlog.is_published
         );
 
         res.status(200).json({ success: true, data: blog });

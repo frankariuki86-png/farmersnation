@@ -23,6 +23,7 @@ export const authAPI = {
   register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),
   getProfile: () => api.get('/auth/profile'),
+  updateProfile: (data) => api.put('/auth/profile', data),
   getAdminUsers: () => api.get('/auth/admin-users'),
   createAdminUser: (data) => api.post('/auth/admin-users', data),
   updateAdminUser: (id, data) => api.put(`/auth/admin-users/${id}`, data),

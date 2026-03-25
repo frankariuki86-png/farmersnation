@@ -1,5 +1,12 @@
 const MarketplaceModel = require('../models/Marketplace');
 
+const toBoolean = (value, fallback = true) => {
+    if (value === undefined || value === null || value === '') return fallback;
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'string') return value.toLowerCase() === 'true';
+    return Boolean(value);
+};
+
 // Create product (Admin only)
 const createProduct = async (req, res) => {
     try {
@@ -104,7 +111,7 @@ const updateProduct = async (req, res) => {
             unit || existingProduct.unit,
             imageUrl,
             stock !== undefined ? stock : existingProduct.stock,
-            isAvailable !== undefined ? isAvailable : existingProduct.is_available
+            isAvailable !== undefined ? toBoolean(isAvailable, existingProduct.is_available) : existingProduct.is_available
         );
 
         res.status(200).json({ success: true, data: product });

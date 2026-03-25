@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { guidesAPI, paymentsAPI } from '../services/api';
 import toast from 'react-hot-toast';
+import { getAssetUrl } from '../utils/url';
 
 export default function GuidesPage() {
   const [guides, setGuides] = useState([]);
@@ -81,7 +82,7 @@ export default function GuidesPage() {
       const data = await downloadResponse.json();
       if (data.success && data.downloadUrl) {
         // Open download link
-        window.open(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}${data.downloadUrl}`, '_blank');
+        window.open(getAssetUrl(data.downloadUrl), '_blank');
         toast.success('Download started');
       }
     } catch (error) {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaEdit, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { businessPlanAPI } from '../services/api';
+import { getAssetUrl } from '../utils/url';
 
 export default function AdminBusinessPlans() {
   const [plans, setPlans] = useState([]);
@@ -198,7 +199,7 @@ export default function AdminBusinessPlans() {
                 <td className="px-6 py-3">
                   {plan.document_url ? (
                     <a
-                      href={`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/..${plan.document_url}`}
+                      href={getAssetUrl(plan.document_url)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:text-blue-800 underline"

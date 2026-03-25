@@ -62,6 +62,10 @@ const checkGuideAccess = async (req, res) => {
         const userId = req.user.id;
         const { guideId } = req.params;
 
+        if (req.user.role === 'admin') {
+            return res.status(200).json({ hasAccess: true });
+        }
+
         const result = await pool.query(
             'SELECT * FROM purchased_guides WHERE user_id = $1 AND guide_id = $2',
             [userId, guideId]

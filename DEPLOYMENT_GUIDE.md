@@ -22,10 +22,14 @@
 │  ┌─────────────────────────────────────────────────────┐   │
 │  │           API Routes & Controllers                   │   │
 │  │  - Auth (Login, Register)                           │   │
+│  │  - Profile (View/Update)                            │   │
 │  │  - Guides (CRUD)                                    │   │
 │  │  - Blogs (CRUD)                                     │   │
 │  │  - Marketplace (CRUD)                               │   │
 │  │  - Payments (M-Pesa Integration)                   │   │
+│  │  - Training Registrations                           │   │
+│  │  - Farm Visit Bookings                              │   │
+│  │  - Business Plan eBooks                             │   │
 │  └─────────────────────────────────────────────────────┘   │
 │                       │                                      │
 │       ┌───────────────┼───────────────┐                    │
@@ -69,6 +73,9 @@ createdb farmers_nation_db
 
 # Import schema
 psql farmers_nation_db < backend/src/config/database.sql
+
+# Run latest migrations (required for trainings/farm visits/business plans)
+npm --prefix backend run migrate:up
 
 # Verify tables created
 psql farmers_nation_db -c "\\dt"
@@ -195,7 +202,6 @@ JWT_SECRET=your_very_long_and_secure_secret_key_here
 MPESA_API_URL=https://api.sandbox.safaricom.co.ke
 MPESA_CONSUMER_KEY=your_consumer_key
 MPESA_CONSUMER_SECRET=your_consumer_secret
-MPESA_TILL_NUMBER=your_till_number
 MPESA_SHORTCODE=your_shortcode
 MPESA_PASSKEY=your_passkey
 
@@ -207,6 +213,7 @@ ADMIN_PASSWORD=admin@123
 FRONTEND_URL=https://yourdomain.com
 BACKEND_URL=https://api.yourdomain.com
 PHONE_NUMBER=0725822740
+LOG_LEVEL=info
 ```
 
 ### Frontend (.env.local)
@@ -227,6 +234,17 @@ POST /api/auth/register
   "firstName": "John",
   "lastName": "Doe",
   "phone": "+254725822740"
+}
+```
+
+#### 1b. User Profile Update
+```bash
+PUT /api/auth/profile
+Headers: Authorization: Bearer <token>
+{
+  "firstName": "John",
+  "lastName": "Farmer",
+  "phone": "0725822740"
 }
 ```
 
@@ -253,6 +271,13 @@ Headers: Authorization: Bearer <token>
   "phoneNumber": "0725822740",
   "guideId": 1
 }
+```
+
+#### 4. Admin Feature Modules
+```bash
+GET /api/trainings/admin/all
+GET /api/farm-visits/admin/all
+GET /api/business-plans/admin/all
 ```
 
 ### Using Postman

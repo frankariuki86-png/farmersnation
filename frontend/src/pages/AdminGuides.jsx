@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaPlus, FaEdit, FaTrash, FaSpinner } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { guidesAPI } from '../services/api';
+import { getAssetUrl } from '../utils/url';
 
 export default function AdminGuides() {
   const [guides, setGuides] = useState([]);
@@ -132,6 +133,7 @@ export default function AdminGuides() {
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             className="w-full p-2 border rounded"
             rows="3"
+            required
           />
           <textarea
             placeholder="Full Content"
@@ -185,6 +187,7 @@ export default function AdminGuides() {
               <tr>
                 <th className="px-6 py-3 text-left">Title</th>
                 <th className="px-6 py-3 text-left">Category</th>
+                <th className="px-6 py-3 text-left">Document</th>
                 <th className="px-6 py-3 text-left">Status</th>
                 <th className="px-6 py-3 text-left">Views</th>
                 <th className="px-6 py-3 text-left">Downloads</th>
@@ -196,6 +199,20 @@ export default function AdminGuides() {
                 <tr key={guide.id} className="border-b hover:bg-gray-50">
                   <td className="px-6 py-3">{guide.title}</td>
                   <td className="px-6 py-3 capitalize">{guide.category}</td>
+                  <td className="px-6 py-3">
+                    {guide.ebook_url ? (
+                      <a
+                        href={getAssetUrl(guide.ebook_url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 underline"
+                      >
+                        Open PDF/Doc
+                      </a>
+                    ) : (
+                      <span className="text-gray-500">No file</span>
+                    )}
+                  </td>
                   <td className="px-6 py-3">
                     <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                       guide.is_published ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'
@@ -219,6 +236,11 @@ export default function AdminGuides() {
                   </td>
                 </tr>
               ))}
+              {!guides.length && (
+                <tr>
+                  <td className="px-6 py-4 text-gray-500" colSpan={7}>No guides found.</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

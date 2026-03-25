@@ -14,6 +14,8 @@ import MarketplacePage from './pages/MarketplacePage';
 import TrainingPage from './pages/TrainingPage';
 import FarmVisitPage from './pages/FarmVisitPage';
 import BusinessPlansPage from './pages/BusinessPlansPage';
+import ProfilePage from './pages/ProfilePage';
+import ContactPage from './pages/ContactPage';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -25,6 +27,16 @@ const ProtectedRoute = ({ children }) => {
 
   if (user?.role !== 'admin') {
     return <Navigate to="/" />;
+  }
+
+  return children;
+};
+
+const AuthenticatedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuthStore();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
   }
 
   return children;
@@ -43,6 +55,15 @@ function App() {
         <Route path="/training" element={<TrainingPage />} />
         <Route path="/farm-visits" element={<FarmVisitPage />} />
         <Route path="/business-plans" element={<BusinessPlansPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route
+          path="/profile"
+          element={
+            <AuthenticatedRoute>
+              <ProfilePage />
+            </AuthenticatedRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

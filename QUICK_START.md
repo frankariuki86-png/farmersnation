@@ -7,9 +7,13 @@ You now have a **production-ready fullstack platform** for agricultural commerce
 ### Frontend (React + Tailwind CSS)
 - ✅ Public website with hero section, guides, blogs, marketplace
 - ✅ User authentication (login/register)
+- ✅ User profile management (view/update)
 - ✅ Admin dashboard for managing content
 - ✅ E-book management interface
 - ✅ M-Pesa payment integration UI
+- ✅ Training registration section
+- ✅ Farm visit booking section
+- ✅ Business plan eBooks section
 - ✅ Responsive mobile-friendly design
 - ✅ Dark mode support ready
 
@@ -19,7 +23,7 @@ You now have a **production-ready fullstack platform** for agricultural commerce
 - ✅ Role-based access control (user vs admin)
 - ✅ File upload handling for e-books & images
 - ✅ M-Pesa payment processing integration
-- ✅ Database schema with 8 tables
+- ✅ Database schema with 11+ tables (including new modules)
 - ✅ Error handling & validation
 - ✅ CORS configuration
 
@@ -27,6 +31,9 @@ You now have a **production-ready fullstack platform** for agricultural commerce
 - ✅ Farming Guides Management (CRUD + publish)
 - ✅ Blog Posts Management
 - ✅ Marketplace Products Management
+- ✅ Training Registrations Management
+- ✅ Farm Visit Bookings Management
+- ✅ Business Plan eBooks Management (create/edit/delete)
 - ✅ File uploads (PDF/DOC for e-books)
 - ✅ Content publishing control
 - ✅ Ready for user management expansion
@@ -126,6 +133,7 @@ cd backend
 npm install
 cp .env.example .env
 # Edit .env with your credentials
+npm run migrate:up
 npm run dev
 ```
 
@@ -144,6 +152,11 @@ npm start
 
 ### Backend .env Setup
 ```env
+# Server
+PORT=5000
+NODE_ENV=development
+LOG_LEVEL=info
+
 # Required - Database
 DATABASE_URL=postgresql://username:password@localhost:5432/farmers_nation_db
 
@@ -151,6 +164,7 @@ DATABASE_URL=postgresql://username:password@localhost:5432/farmers_nation_db
 JWT_SECRET=your_super_secret_jwt_key_here_change_this
 
 # M-Pesa Configuration (Get from Safaricom)
+MPESA_API_URL=https://api.sandbox.safaricom.co.ke
 MPESA_CONSUMER_KEY=your_key_here
 MPESA_CONSUMER_SECRET=your_secret_here
 MPESA_SHORTCODE=your_shortcode
@@ -161,6 +175,7 @@ ADMIN_EMAIL=admin@farmersnation.com
 ADMIN_PASSWORD=admin@123
 PHONE_NUMBER=0725822740
 FRONTEND_URL=http://localhost:3000
+BACKEND_URL=http://localhost:5000
 ```
 
 ## 📊 Database Tables Created
@@ -173,12 +188,16 @@ FRONTEND_URL=http://localhost:3000
 6. **purchased_guides** - User guide purchases
 7. **community_members** - Community participation
 8. **admin_logs** - Admin activity tracking
+9. **training_registrations** - Training requests
+10. **farm_visit_bookings** - Visit bookings
+11. **business_plans** - Business plan eBooks
 
 ## 🎯 Key Features Implemented
 
 ### Authentication System
 - User registration with validation
 - Secure login with JWT tokens
+- User profile view and update
 - Password hashing with bcryptjs
 - Role-based access control (user/admin)
 - Token expiration (7 days)
@@ -187,6 +206,9 @@ FRONTEND_URL=http://localhost:3000
 - Farming Guides: Upload, edit, publish, delete e-books
 - Blog Posts: Create blog content with auto-slug generation
 - Marketplace: Add and manage products
+- Training: Review and manage training registrations
+- Farm Visits: Review and manage visit bookings
+- Business Plans: Upload and manage business plan eBooks
 - File Upload: Support for PDF/DOC files (50MB limit)
 
 ### Payment Integration
@@ -243,6 +265,7 @@ VALUES (
 - `POST /auth/register` - Register user
 - `POST /auth/login` - Login user
 - `GET /auth/profile` - Get profile (protected)
+- `PUT /auth/profile` - Update profile (protected)
 
 ### Farming Guides (6 Endpoints)
 - `GET /guides` - List all guides
@@ -272,6 +295,25 @@ VALUES (
 - `POST /payments/callback` - Handle M-Pesa response
 - `GET /payments/history` - Get payment history
 - `GET /payments/access/:guideId` - Check guide access
+
+### Training (4 Endpoints)
+- `POST /trainings` - Register for training
+- `GET /trainings/admin/all` - List all registrations (admin)
+- `PUT /trainings/admin/:id/status` - Update registration status (admin)
+- `DELETE /trainings/admin/:id` - Delete registration (admin)
+
+### Farm Visits (4 Endpoints)
+- `POST /farm-visits` - Create visit booking
+- `GET /farm-visits/admin/all` - List all bookings (admin)
+- `PUT /farm-visits/admin/:id/status` - Update booking status (admin)
+- `DELETE /farm-visits/admin/:id` - Delete booking (admin)
+
+### Business Plans (5 Endpoints)
+- `GET /business-plans` - List published business plan eBooks
+- `GET /business-plans/admin/all` - List all plans (admin)
+- `POST /business-plans` - Create plan eBook (admin)
+- `PUT /business-plans/:id` - Update plan eBook (admin)
+- `DELETE /business-plans/:id` - Delete plan eBook (admin)
 
 ## 🎓 Next Steps to Customize
 

@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { FaEdit, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { blogsAPI } from '../services/api';
+import { getAssetUrl } from '../utils/url';
 
 export default function AdminBlogs() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     excerpt: '',
@@ -38,6 +40,7 @@ export default function AdminBlogs() {
     setFormData({ title: '', excerpt: '', content: '', category: '', isPublished: false, image: null });
     setEditingId(null);
     setShowForm(false);
+    setImagePreview(null);
   };
 
   const handleEdit = (blog) => {
@@ -51,6 +54,9 @@ export default function AdminBlogs() {
       isPublished: !!blog.is_published,
       image: null
     });
+    if (blog.image_url) {
+      setImagePreview(getAssetUrl(blog.image_url));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -145,6 +151,7 @@ export default function AdminBlogs() {
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
             className="w-full p-2 border rounded"
+            required
           />
           <textarea
             placeholder="Excerpt"
@@ -152,6 +159,7 @@ export default function AdminBlogs() {
             onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
             className="w-full p-2 border rounded"
             rows="3"
+            required
           />
           <textarea
             placeholder="Content"
@@ -165,8 +173,24 @@ export default function AdminBlogs() {
             type="file"
             accept=".jpg,.jpeg,.png,.webp"
             className="w-full p-2 border rounded"
-            onChange={(e) => setFormData({ ...formData, image: e.target.files?.[0] || null })}
+            onChange={(e) => {
+              const file = e.target.files?.[0] || null;
+              setFormData({ ...formData, image: file });
+              if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  setImagePreview(reader.result);
+                };
+                reader.readAsDataURL(file);
+              }
+            }}
           />
+          {imagePreview && (
+            <div className="mt-4">
+              <p className="text-sm font-semibold text-gray-700 mb-2">Image Preview:</p>
+              <img src={imagePreview} alt="Preview" className="w-full h-48 object-cover rounded border" />
+            </div>
+          )}
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
@@ -191,6 +215,7 @@ export default function AdminBlogs() {
         <table className="w-full">
           <thead className="bg-primary-green text-white">
             <tr>
+              <th className="px-6 py-3 text-left">Photo</th>
               <th className="px-6 py-3 text-left">Title</th>
               <th className="px-6 py-3 text-left">Category</th>
               <th className="px-6 py-3 text-left">Status</th>
@@ -200,6 +225,19 @@ export default function AdminBlogs() {
           <tbody>
             {blogs.map((blog) => (
               <tr key={blog.id} className="border-b hover:bg-gray-50">
+                <td className="px-6 py-3">
+                  {blog.image_url ? (
+                    <img
+                      src={getAssetUrl(blog.image_url)}
+                      alt={blog.title}
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
+                      <span>No Image</span>
+                    </div>
+                  )}
+                </td>
                 <td className="px-6 py-3">{blog.title}</td>
                 <td className="px-6 py-3 capitalize">{blog.category || 'general'}</td>
                 <td className="px-6 py-3">
@@ -221,7 +259,7 @@ export default function AdminBlogs() {
             ))}
             {!blogs.length && (
               <tr>
-                <td className="px-6 py-4 text-gray-500" colSpan={4}>No blog posts found.</td>
+                <td className="px-6 py-4 text-gray-500" colSpan={5}>No blog posts found.</td>
               </tr>
             )}
           </tbody>

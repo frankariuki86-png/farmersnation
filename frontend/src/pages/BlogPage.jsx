@@ -3,6 +3,7 @@ import { FaSpinner } from 'react-icons/fa';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { blogsAPI } from '../services/api';
+import { getAssetUrl } from '../utils/url';
 
 export default function BlogPage() {
   const [posts, setPosts] = useState([]);
@@ -39,6 +40,13 @@ export default function BlogPage() {
             <div className="space-y-6">
               {posts.map((post) => (
                 <article key={post.id} className="bg-white rounded-xl border border-gray-200 p-6">
+                  {post.image_url && (
+                    <img
+                      src={getAssetUrl(post.image_url)}
+                      alt={post.title}
+                      className="w-full h-56 object-cover rounded-lg mb-4"
+                    />
+                  )}
                   <p className="text-xs uppercase font-semibold text-light-green">{post.category || 'Farming'}</p>
                   <h2 className="text-2xl font-bold text-primary-green mt-1 mb-2">{post.title}</h2>
                   <p className="text-gray-700">{post.excerpt || post.content}</p>

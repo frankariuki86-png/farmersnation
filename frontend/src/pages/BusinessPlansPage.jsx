@@ -3,6 +3,7 @@ import { FaSpinner } from 'react-icons/fa';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { businessPlanAPI } from '../services/api';
+import { getAssetUrl } from '../utils/url';
 
 export default function BusinessPlansPage() {
   const [plans, setPlans] = useState([]);
@@ -45,7 +46,7 @@ export default function BusinessPlansPage() {
                   <p className="text-gray-600 whitespace-pre-wrap">{plan.content}</p>
                   {plan.document_url && (
                     <a
-                      href={`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/..${plan.document_url}`}
+                      href={getAssetUrl(plan.document_url)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block mt-4 bg-light-green text-primary-green px-4 py-2 rounded font-semibold hover:bg-accent-green transition"

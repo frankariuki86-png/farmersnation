@@ -1,9 +1,17 @@
 const FarmingGuideModel = require('../models/FarmingGuide');
 
+const toBoolean = (value, fallback = false) => {
+    if (value === undefined || value === null || value === '') return fallback;
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'string') return value.toLowerCase() === 'true';
+    return Boolean(value);
+};
+
 // Create guide (Admin only)
 const createGuide = async (req, res) => {
     try {
         const { title, description, category, content, isPublished } = req.body;
+        const publish = toBoolean(isPublished, false);
         const ebookUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
         const guide = await FarmingGuideModel.createGuide(
@@ -16,7 +24,7 @@ const createGuide = async (req, res) => {
             req.user.id
         );
 
-        if (isPublished) {
+        if (publish) {
             await FarmingGuideModel.updateGuide(guide.id, title, description, category, content, ebookUrl, null, true);
         }
 
@@ -95,7 +103,7 @@ const updateGuide = async (req, res) => {
             content || existingGuide.content,
             ebookUrl,
             existingGuide.thumbnail_url,
-            isPublished !== undefined ? isPublished : existingGuide.is_published
+            isPublished !== undefined ? toBoolean(isPublished, existingGuide.is_published) : existingGuide.is_published
         );
 
         res.status(200).json({ success: true, data: guide });

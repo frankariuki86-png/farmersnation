@@ -75,9 +75,6 @@ const validateGuide = [
         .trim()
         .notEmpty()
         .withMessage('Category is required'),
-    body('price')
-        .isFloat({ min: 0 })
-        .withMessage('Price must be a non-negative number'),
     handleValidationErrors
 ];
 
@@ -237,6 +234,31 @@ const validateAdminUser = [
     handleValidationErrors
 ];
 
+// User profile update validation
+const validateProfileUpdate = [
+    body('email')
+        .optional({ checkFalsy: true })
+        .trim()
+        .isEmail()
+        .withMessage('Please provide a valid email address'),
+    body('firstName')
+        .optional({ checkFalsy: true })
+        .trim()
+        .isLength({ min: 2 })
+        .withMessage('First name must be at least 2 characters'),
+    body('lastName')
+        .optional({ checkFalsy: true })
+        .trim()
+        .isLength({ min: 2 })
+        .withMessage('Last name must be at least 2 characters'),
+    body('phone')
+        .optional({ checkFalsy: true })
+        .trim()
+        .matches(/^([+]?[0-9]{10,15})$/)
+        .withMessage('Please provide a valid phone number'),
+    handleValidationErrors
+];
+
 // ID validation for params
 const validateId = [
     param('id')
@@ -256,6 +278,7 @@ module.exports = {
     validateBusinessPlan,
     validateStatusUpdate,
     validateAdminUser,
+    validateProfileUpdate,
     validateId,
     handleValidationErrors
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaEdit, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { marketplaceAPI } from '../services/api';
+import { getAssetUrl } from '../utils/url';
 
 export default function AdminMarketplace() {
   const [products, setProducts] = useState([]);
@@ -58,7 +59,7 @@ export default function AdminMarketplace() {
       image: null
     });
     if (item.image_url) {
-      setImagePreview(`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/..${item.image_url}`);
+      setImagePreview(getAssetUrl(item.image_url));
     }
   };
 
@@ -250,7 +251,7 @@ export default function AdminMarketplace() {
                 <td className="px-6 py-3">
                   {item.image_url ? (
                     <img
-                      src={`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/..${item.image_url}`}
+                      src={getAssetUrl(item.image_url)}
                       alt={item.name}
                       className="w-16 h-16 object-cover rounded"
                     />

@@ -3,6 +3,7 @@ import { FaSpinner, FaWhatsapp } from 'react-icons/fa';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { marketplaceAPI } from '../services/api';
+import { getAssetUrl } from '../utils/url';
 
 export default function MarketplacePage() {
   const [products, setProducts] = useState([]);
@@ -43,7 +44,7 @@ export default function MarketplacePage() {
                   {item.image_url ? (
                     <div className="w-full h-48 overflow-hidden bg-gray-200">
                       <img 
-                        src={`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/..${item.image_url}`}
+                        src={getAssetUrl(item.image_url)}
                         alt={item.name}
                         className="w-full h-full object-cover hover:scale-110 transition"
                       />

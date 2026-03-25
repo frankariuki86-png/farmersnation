@@ -1,5 +1,12 @@
 const BusinessPlanModel = require('../models/BusinessPlan');
 
+const toBoolean = (value, fallback = false) => {
+    if (value === undefined || value === null || value === '') return fallback;
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'string') return value.toLowerCase() === 'true';
+    return Boolean(value);
+};
+
 const createPlan = async (req, res) => {
     try {
         const { title, summary, content, category, isPublished } = req.body;
@@ -8,15 +15,16 @@ const createPlan = async (req, res) => {
             return res.status(400).json({ error: 'Business plan eBook file is required' });
         }
 
+        const safeContent = content && content.trim() ? content : summary;
         const documentUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
         const plan = await BusinessPlanModel.createPlan({
             title,
             summary,
-            content,
+            content: safeContent,
             category,
             documentUrl,
-            isPublished,
+            isPublished: toBoolean(isPublished, false),
             createdBy: req.user.id
         });
 
@@ -55,14 +63,15 @@ const updatePlan = async (req, res) => {
         }
 
         const documentUrl = req.file ? `/uploads/${req.file.filename}` : existing.document_url;
+        const safeContent = content && content.trim() ? content : existing.content || existing.summary;
 
         const updated = await BusinessPlanModel.updatePlan(id, {
             title: title || existing.title,
             summary: summary || existing.summary,
-            content: content || existing.content,
+            content: safeContent,
             category: category || existing.category,
             documentUrl,
-            isPublished: isPublished !== undefined ? isPublished : existing.is_published
+            isPublished: isPublished !== undefined ? toBoolean(isPublished, existing.is_published) : existing.is_published
         });
 
         res.status(200).json({ success: true, data: updated });

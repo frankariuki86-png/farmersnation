@@ -54,6 +54,32 @@ const getUserById = async (userId) => {
     }
 };
 
+// Update own user profile
+const updateUserProfile = async (userId, email, firstName, lastName, phone) => {
+    try {
+        const existingResult = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
+        if (existingResult.rows.length === 0) {
+            return null;
+        }
+
+        const existingUser = existingResult.rows[0];
+        const result = await pool.query(
+            'UPDATE users SET email = $1, first_name = $2, last_name = $3, phone = $4, updated_at = CURRENT_TIMESTAMP WHERE id = $5 RETURNING id, email, first_name, last_name, phone, role, created_at',
+            [
+                email || existingUser.email,
+                firstName !== undefined ? firstName : existingUser.first_name,
+                lastName !== undefined ? lastName : existingUser.last_name,
+                phone !== undefined ? phone : existingUser.phone,
+                userId
+            ]
+        );
+
+        return result.rows[0];
+    } catch (error) {
+        throw error;
+    }
+};
+
 // Get all admin users
 const getAdminUsers = async () => {
     try {
@@ -125,6 +151,7 @@ module.exports = {
     register,
     login,
     getUserById,
+    updateUserProfile,
     getAdminUsers,
     createAdminUser,
     updateAdminUser,
