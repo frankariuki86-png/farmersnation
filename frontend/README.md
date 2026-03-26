@@ -148,7 +148,8 @@ npm install
 
 1. Push code to GitHub
 2. Connect repo to Vercel
-3. Set `REACT_APP_API_URL` environment variable
+3. Set `REACT_APP_API_URL` environment variable to your backend base URL (with or without `/api`)
+  Example: `https://farmersnation.onrender.com/api`
 4. Deploy
 5. Update CORS on backend
 

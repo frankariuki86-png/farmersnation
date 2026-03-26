@@ -1,5 +1,10 @@
 export const getBackendOrigin = () => {
-  const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+  const rawApiBase = process.env.REACT_APP_API_URL;
+  const apiBase = rawApiBase
+    ? (rawApiBase.trim().replace(/\/+$/, '').match(/\/api$/i)
+      ? rawApiBase.trim().replace(/\/+$/, '')
+      : `${rawApiBase.trim().replace(/\/+$/, '')}/api`)
+    : 'http://localhost:5000/api';
   return apiBase.replace(/\/api\/?$/, '');
 };
 
