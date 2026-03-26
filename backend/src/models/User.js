@@ -2,13 +2,16 @@ const pool = require('../config/database');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const BCRYPT_HASH_REGEX = /^\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}$/;
+
 // Register user
 const register = async (email, password, firstName, lastName, phone) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
+        const normalizedEmail = (email || '').trim().toLowerCase();
         const result = await pool.query(
             'INSERT INTO users (email, password, first_name, last_name, phone, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, email, first_name, last_name',
-            [email, hashedPassword, firstName, lastName, phone, 'user']
+            [normalizedEmail, hashedPassword, firstName, lastName, phone, 'user']
         );
         return result.rows[0];
     } catch (error) {
@@ -19,17 +22,34 @@ const register = async (email, password, firstName, lastName, phone) => {
 // Login user
 const login = async (email, password) => {
     try {
-        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        const normalizedEmail = (email || '').trim().toLowerCase();
+        const result = await pool.query('SELECT * FROM users WHERE LOWER(email) = $1', [normalizedEmail]);
         
         if (result.rows.length === 0) {
-            throw new Error('User not found');
+            throw new Error('Invalid email or password');
         }
 
         const user = result.rows[0];
-        const isValidPassword = await bcrypt.compare(password, user.password);
+        let isValidPassword = false;
+
+        if (BCRYPT_HASH_REGEX.test(user.password)) {
+            isValidPassword = await bcrypt.compare(password, user.password);
+        } else {
+            // Backward compatibility for legacy records created with plaintext passwords.
+            isValidPassword = password === user.password;
+
+            if (isValidPassword) {
+                const upgradedHash = await bcrypt.hash(password, 10);
+                await pool.query('UPDATE users SET password = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2', [upgradedHash, user.id]);
+            }
+        }
 
         if (!isValidPassword) {
-            throw new Error('Invalid password');
+            throw new Error('Invalid email or password');
+        }
+
+        if (user.is_active === false) {
+            throw new Error('Account is inactive');
         }
 
         const token = jwt.sign(
@@ -66,7 +86,7 @@ const updateUserProfile = async (userId, email, firstName, lastName, phone) => {
         const result = await pool.query(
             'UPDATE users SET email = $1, first_name = $2, last_name = $3, phone = $4, updated_at = CURRENT_TIMESTAMP WHERE id = $5 RETURNING id, email, first_name, last_name, phone, role, created_at',
             [
-                email || existingUser.email,
+                email ? email.trim().toLowerCase() : existingUser.email,
                 firstName !== undefined ? firstName : existingUser.first_name,
                 lastName !== undefined ? lastName : existingUser.last_name,
                 phone !== undefined ? phone : existingUser.phone,
@@ -97,9 +117,10 @@ const getAdminUsers = async () => {
 const createAdminUser = async (email, password, firstName, lastName, phone) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
+        const normalizedEmail = (email || '').trim().toLowerCase();
         const result = await pool.query(
             'INSERT INTO users (email, password, first_name, last_name, phone, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, email, first_name, last_name, phone, role, created_at',
-            [email, hashedPassword, firstName || null, lastName || null, phone || null, 'admin']
+            [normalizedEmail, hashedPassword, firstName || null, lastName || null, phone || null, 'admin']
         );
         return result.rows[0];
     } catch (error) {
@@ -121,7 +142,7 @@ const updateAdminUser = async (userId, email, firstName, lastName, phone, passwo
         const result = await pool.query(
             'UPDATE users SET email = $1, first_name = $2, last_name = $3, phone = $4, password = $5, role = $6, updated_at = CURRENT_TIMESTAMP WHERE id = $7 RETURNING id, email, first_name, last_name, phone, role, created_at',
             [
-                email || existingUser.email,
+                email ? email.trim().toLowerCase() : existingUser.email,
                 firstName !== undefined ? firstName : existingUser.first_name,
                 lastName !== undefined ? lastName : existingUser.last_name,
                 phone !== undefined ? phone : existingUser.phone,

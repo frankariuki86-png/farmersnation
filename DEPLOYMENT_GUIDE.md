@@ -129,12 +129,13 @@ Phone: 0725822740
 Location: Busia, Kenya
 ```
 
-**Note**: Create this account in the database after setup:
+**Note**: Use the seed script to create/update this admin account with a valid bcrypt hash:
 
-```sql
-INSERT INTO users (email, password, first_name, last_name, role) 
-VALUES ('admin@farmersnation.com', '$2a$10/...', 'Admin', 'User', 'admin');
+```bash
+npm --prefix backend run seed:admin
 ```
+
+If your database password contains special characters (for example `@`), URL-encode them in `DATABASE_URL` (for example `@` becomes `%40`).
 
 ## 🌐 Production Deployment
 
