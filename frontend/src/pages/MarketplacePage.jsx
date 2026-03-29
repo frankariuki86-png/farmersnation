@@ -47,6 +47,12 @@ export default function MarketplacePage() {
                         src={getAssetUrl(item.image_url)}
                         alt={item.name}
                         className="w-full h-full object-cover hover:scale-110 transition"
+                        onError={(e) => {
+                          const imageContainer = e.currentTarget.parentElement;
+                          if (imageContainer) {
+                            imageContainer.outerHTML = '<div class="w-full h-48 bg-gradient-to-br from-light-green to-accent-green flex items-center justify-center"><span class="text-4xl">🌾</span></div>';
+                          }
+                        }}
                       />
                     </div>
                   ) : (

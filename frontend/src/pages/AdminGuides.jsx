@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus, FaEdit, FaTrash, FaSpinner } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { guidesAPI } from '../services/api';
+import { guidesAPI, getApiErrorMessage } from '../services/api';
 import { getAssetUrl } from '../utils/url';
 
 export default function AdminGuides() {
@@ -63,7 +63,7 @@ export default function AdminGuides() {
       setShowForm(false);
       fetchGuides();
     } catch (error) {
-      toast.error('Failed to save guide');
+      toast.error(getApiErrorMessage(error, 'Failed to save guide'));
       console.error(error);
     } finally {
       setLoading(false);

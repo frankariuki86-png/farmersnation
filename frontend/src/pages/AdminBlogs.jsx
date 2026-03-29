@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaEdit, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { blogsAPI } from '../services/api';
+import { blogsAPI, getApiErrorMessage } from '../services/api';
 import { getAssetUrl } from '../utils/url';
 
 export default function AdminBlogs() {
@@ -86,7 +86,7 @@ export default function AdminBlogs() {
       resetForm();
       fetchBlogs();
     } catch (error) {
-      toast.error(error?.response?.data?.error || 'Failed to save blog');
+      toast.error(getApiErrorMessage(error, 'Failed to save blog'));
       console.error(error);
     } finally {
       setLoading(false);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingBasket, FaSpinner, FaWhatsapp } from 'react-icons/fa';
 import { marketplaceAPI } from '../services/api';
+import { getAssetUrl } from '../utils/url';
 
 export default function ProductsSection() {
   const [products, setProducts] = useState([]);
@@ -43,6 +44,16 @@ export default function ProductsSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((item) => (
               <article key={item.id} className="bg-white rounded-xl p-5 border border-gray-200 hover:shadow-lg transition">
+                {item.image_url ? (
+                  <img
+                    src={getAssetUrl(item.image_url)}
+                    alt={item.name}
+                    className="w-full h-36 object-cover rounded-lg mb-4"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                ) : null}
                 <div className="flex items-center gap-2 text-light-green mb-2">
                   <FaShoppingBasket />
                   <span className="text-sm uppercase font-semibold">{item.category}</span>

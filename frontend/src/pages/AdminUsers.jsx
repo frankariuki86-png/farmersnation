@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaEdit, FaPlus, FaSpinner, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { authAPI } from '../services/api';
+import { authAPI, getApiErrorMessage } from '../services/api';
 
 const initialForm = {
   email: '',
@@ -84,7 +84,7 @@ export default function AdminUsers() {
       resetForm();
       fetchAdmins();
     } catch (error) {
-      toast.error(error?.response?.data?.error || 'Failed to save admin user');
+      toast.error(getApiErrorMessage(error, 'Failed to save admin user'));
       console.error(error);
     } finally {
       setLoading(false);
@@ -101,7 +101,7 @@ export default function AdminUsers() {
       toast.success('Admin user deleted');
       fetchAdmins();
     } catch (error) {
-      toast.error(error?.response?.data?.error || 'Failed to delete admin user');
+      toast.error(getApiErrorMessage(error, 'Failed to delete admin user'));
       console.error(error);
     }
   };

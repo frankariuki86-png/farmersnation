@@ -71,11 +71,11 @@ const getBlogById = async (blogId) => {
 const updateBlog = async (blogId, title, excerpt, content, imageUrl, category, isPublished) => {
     try {
         // Get existing blog to preserve or update slug
-        const existing = await pool.query('SELECT slug FROM blog_posts WHERE id = $1', [blogId]);
+        const existing = await pool.query('SELECT title, slug FROM blog_posts WHERE id = $1', [blogId]);
         let slug = existing.rows[0]?.slug;
         
         // Update slug if title changed
-        if (!slug || title.toLowerCase() !== existing.rows[0]?.title?.toLowerCase()) {
+        if (!slug || (existing.rows[0]?.title || '').toLowerCase() !== (title || '').toLowerCase()) {
             let newSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
             if (!newSlug) newSlug = 'blog';
             slug = newSlug + '-' + Date.now();

@@ -1,6 +1,4 @@
 node_modules/
-.env
-.env.local
 .env.*.local
 dist/
 build/
@@ -13,3 +11,4 @@ yarn-error.log*
 .idea/
 uploads/
 *.pem
+config.bat

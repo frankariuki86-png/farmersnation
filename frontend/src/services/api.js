@@ -127,4 +127,15 @@ export const businessPlanAPI = {
   delete: (id) => api.delete(`/business-plans/${id}`),
 };
 
+export const getApiErrorMessage = (error, fallback = 'Request failed') => {
+  const responseData = error?.response?.data;
+  if (!responseData) return fallback;
+
+  if (Array.isArray(responseData.errors) && responseData.errors.length > 0) {
+    return responseData.errors.map((item) => item?.msg).filter(Boolean).join(', ') || fallback;
+  }
+
+  return responseData.error || responseData.message || fallback;
+};
+
 export default api;

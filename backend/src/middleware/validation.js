@@ -69,8 +69,8 @@ const validateGuide = [
         .trim()
         .notEmpty()
         .withMessage('Description is required')
-        .isLength({ min: 20 })
-        .withMessage('Description must be at least 20 characters'),
+        .isLength({ min: 5 })
+        .withMessage('Description must be at least 5 characters'),
     body('category')
         .trim()
         .notEmpty()
@@ -84,20 +84,20 @@ const validateBlog = [
         .trim()
         .notEmpty()
         .withMessage('Title is required')
-        .isLength({ min: 5, max: 200 })
-        .withMessage('Title must be between 5 and 200 characters'),
+        .isLength({ min: 3, max: 200 })
+        .withMessage('Title must be between 3 and 200 characters'),
     body('excerpt')
         .trim()
         .notEmpty()
         .withMessage('Excerpt is required')
-        .isLength({ min: 10, max: 500 })
-        .withMessage('Excerpt must be between 10 and 500 characters'),
+        .isLength({ min: 3, max: 500 })
+        .withMessage('Excerpt must be between 3 and 500 characters'),
     body('content')
         .trim()
         .notEmpty()
         .withMessage('Content is required')
-        .isLength({ min: 50 })
-        .withMessage('Content must be at least 50 characters'),
+        .isLength({ min: 10 })
+        .withMessage('Content must be at least 10 characters'),
     body('category')
         .trim()
         .notEmpty()
@@ -190,19 +190,19 @@ const validateBusinessPlan = [
         .trim()
         .notEmpty()
         .withMessage('Title is required')
-        .isLength({ min: 5, max: 255 })
-        .withMessage('Title must be between 5 and 255 characters'),
+        .isLength({ min: 3, max: 255 })
+        .withMessage('Title must be between 3 and 255 characters'),
     body('summary')
         .trim()
         .notEmpty()
         .withMessage('Summary is required')
-        .isLength({ min: 10 })
-        .withMessage('Summary must be at least 10 characters'),
+        .isLength({ min: 5 })
+        .withMessage('Summary must be at least 5 characters'),
     body('content')
         .optional({ checkFalsy: true })
         .trim()
-        .isLength({ min: 30 })
-        .withMessage('Content must be at least 30 characters when provided'),
+        .isLength({ min: 10 })
+        .withMessage('Content must be at least 10 characters when provided'),
     body('category')
         .trim()
         .notEmpty()
@@ -228,9 +228,7 @@ const validateAdminUser = [
     body('password')
         .optional({ checkFalsy: true })
         .isLength({ min: 8 })
-        .withMessage('Password must be at least 8 characters long')
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
-        .withMessage('Password must contain uppercase, lowercase, and numbers'),
+        .withMessage('Password must be at least 8 characters long'),
     handleValidationErrors
 ];
 

@@ -45,6 +45,9 @@ export default function BlogPage() {
                       src={getAssetUrl(post.image_url)}
                       alt={post.title}
                       className="w-full h-56 object-cover rounded-lg mb-4"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
                     />
                   )}
                   <p className="text-xs uppercase font-semibold text-light-green">{post.category || 'Farming'}</p>
