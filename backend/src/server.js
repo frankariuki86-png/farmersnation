@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const pino = require('pino');
 const pinoHttp = require('pino-http');
+const fs = require('fs');
 require('dotenv').config();
 
 // Import routes
@@ -112,8 +113,15 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
+// Create uploads directory if it doesn't exist
+const uploadsDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    logger.info({ path: uploadsDir }, 'Created uploads directory');
+}
+
 // Serve uploaded files
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(uploadsDir));
 
 // Health check
 app.get('/health', (req, res) => {
@@ -144,7 +152,14 @@ app.get('/api', (req, res) => {
             payments: '/api/payments',
             trainings: '/api/trainings',
             farmVisits: '/api/farm-visits',
-            businessPlans: '/api/business-plans'
+    logger.error({ 
+        err, 
+        stack: err.stack,
+        code: err.code,
+        message: err.message,
+        path: req.path,
+        method: req.method
+   ns: '/api/business-plans'
         }
     });
 });

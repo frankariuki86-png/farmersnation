@@ -26,7 +26,8 @@ const createBlog = async (req, res) => {
 
         res.status(201).json({ success: true, data: blog });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Blog creation error:', error.message, error.stack);
+        res.status(500).json({ error: error.message || 'Failed to create blog', details: error.code });
     }
 };
 
@@ -96,7 +97,8 @@ const updateBlog = async (req, res) => {
 
         res.status(200).json({ success: true, data: blog });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Blog update error:', error.message, error.stack);
+        res.status(500).json({ error: error.message || 'Failed to update blog', details: error.code });
     }
 };
 

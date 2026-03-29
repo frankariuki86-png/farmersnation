@@ -3,7 +3,11 @@ const pool = require('../config/database');
 // Create blog post
 const createBlog = async (title, excerpt, content, imageUrl, authorId, category, isPublished) => {
     try {
-        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        // Generate slug with timestamp to ensure uniqueness
+        let slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        if (!slug) slug = 'blog'; // Fallback if title has no alphanumeric chars
+        slug = slug + '-' + Date.now();
+        
         const result = await pool.query(
             'INSERT INTO blog_posts (title, slug, excerpt, content, image_url, author_id, category, is_published) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
             [title, slug, excerpt, content, imageUrl, authorId, category, isPublished]
@@ -66,7 +70,17 @@ const getBlogById = async (blogId) => {
 // Update blog
 const updateBlog = async (blogId, title, excerpt, content, imageUrl, category, isPublished) => {
     try {
-        const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        // Get existing blog to preserve or update slug
+        const existing = await pool.query('SELECT slug FROM blog_posts WHERE id = $1', [blogId]);
+        let slug = existing.rows[0]?.slug;
+        
+        // Update slug if title changed
+        if (!slug || title.toLowerCase() !== existing.rows[0]?.title?.toLowerCase()) {
+            let newSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+            if (!newSlug) newSlug = 'blog';
+            slug = newSlug + '-' + Date.now();
+        }
+        
         const result = await pool.query(
             'UPDATE blog_posts SET title = $1, slug = $2, excerpt = $3, content = $4, image_url = $5, category = $6, is_published = $7, updated_at = CURRENT_TIMESTAMP WHERE id = $8 RETURNING *',
             [title, slug, excerpt, content, imageUrl, category, isPublished, blogId]

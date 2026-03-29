@@ -30,7 +30,8 @@ const createGuide = async (req, res) => {
 
         res.status(201).json({ success: true, data: guide });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Guide creation error:', error.message, error.stack);
+        res.status(500).json({ error: error.message || 'Failed to create guide', details: error.code });
     }
 };
 
@@ -108,7 +109,8 @@ const updateGuide = async (req, res) => {
 
         res.status(200).json({ success: true, data: guide });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Guide update error:', error.message, error.stack);
+        res.status(500).json({ error: error.message || 'Failed to update guide', details: error.code });
     }
 };
 

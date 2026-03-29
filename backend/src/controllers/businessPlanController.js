@@ -30,7 +30,8 @@ const createPlan = async (req, res) => {
 
         res.status(201).json({ success: true, data: plan });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Business plan creation error:', error.message, error.stack);
+        res.status(500).json({ error: error.message || 'Failed to create business plan', details: error.code });
     }
 };
 
@@ -76,7 +77,8 @@ const updatePlan = async (req, res) => {
 
         res.status(200).json({ success: true, data: updated });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Business plan update error:', error.message, error.stack);
+        res.status(500).json({ error: error.message || 'Failed to update business plan', details: error.code });
     }
 };
 
