@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { Client } = require('pg');
+require('dotenv').config();
 
 async function ensureDatabaseExists() {
   const rawUrl = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/farmers_nation_db';

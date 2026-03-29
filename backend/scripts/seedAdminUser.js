@@ -27,6 +27,9 @@ async function seedAdmin() {
 seedAdmin()
   .catch((error) => {
     console.error('Failed to seed admin user:', error.message);
+    if (error.code === 'ENETUNREACH') {
+      console.error('Network cannot reach IPv6 database endpoint. Use an IPv4-capable DB host/pooler or run in an IPv6-enabled environment.');
+    }
     process.exit(1);
   })
   .finally(async () => {

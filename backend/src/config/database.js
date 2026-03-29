@@ -2,12 +2,19 @@ const { Pool } = require('pg');
 const dns = require('dns');
 require('dotenv').config();
 
+const allowIpv6 = (process.env.PG_ALLOW_IPV6 || 'false').toLowerCase() === 'true';
+
 const resolveHostForPg = (hostname, options, callback) => {
     const cb = typeof options === 'function' ? options : callback;
 
     dns.resolve4(hostname, (ipv4Err, ipv4Addresses) => {
         if (!ipv4Err && Array.isArray(ipv4Addresses) && ipv4Addresses.length > 0) {
             return cb(null, ipv4Addresses[0], 4);
+        }
+
+        if (!allowIpv6) {
+            // Keep environments without IPv6 connectivity from selecting AAAA records.
+            return dns.lookup(hostname, { family: 4 }, cb);
         }
 
         dns.resolve6(hostname, (ipv6Err, ipv6Addresses) => {
