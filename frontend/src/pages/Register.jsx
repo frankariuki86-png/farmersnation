@@ -33,6 +33,13 @@ export default function Register() {
     <>
       <div className="min-h-screen bg-gradient-to-br from-primary-green to-secondary-green flex items-center justify-center py-12 px-4">
         <div className="bg-white rounded-lg shadow-2xl w-full max-w-md p-8">
+          <Link
+            to="/"
+            className="inline-flex items-center text-sm font-semibold text-primary-green hover:text-secondary-green mb-4"
+          >
+            ← Back to Website
+          </Link>
+
           <h2 className="text-3xl font-bold text-primary-green mb-2 text-center">Join Us!</h2>
           <p className="text-gray-600 text-center mb-6">Create your FARMERS NATION account today</p>
 

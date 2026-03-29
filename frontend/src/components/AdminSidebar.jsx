@@ -35,7 +35,7 @@ export default function AdminSidebar() {
       {/* Mobile Toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden fixed top-3 left-3 z-50 bg-primary-green text-white p-2 rounded"
+        className="md:hidden fixed top-3 left-3 z-[70] bg-primary-green text-white p-2 rounded"
         aria-label="Toggle admin menu"
       >
         {isOpen ? <FaTimes /> : <FaBars />}
@@ -43,7 +43,7 @@ export default function AdminSidebar() {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-screen w-64 bg-primary-green text-white transition-transform duration-300 ${
+        className={`fixed top-0 left-0 z-[60] h-screen w-64 bg-primary-green text-white transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
