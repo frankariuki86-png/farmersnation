@@ -152,6 +152,13 @@ app.get('/api', (req, res) => {
             payments: '/api/payments',
             trainings: '/api/trainings',
             farmVisits: '/api/farm-visits',
+            businessPlans: '/api/business-plans'
+        }
+    });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
     logger.error({ 
         err, 
         stack: err.stack,
@@ -159,14 +166,7 @@ app.get('/api', (req, res) => {
         message: err.message,
         path: req.path,
         method: req.method
-   ns: '/api/business-plans'
-        }
-    });
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-    req.log.error({ err }, 'Unhandled error');
+    }, 'Unhandled error');
     res.status(500).json({ error: 'Something went wrong', message: err.message });
 });
 
