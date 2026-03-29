@@ -1,10 +1,14 @@
 import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaPhone, FaWhatsapp } from 'react-icons/fa';
+import { FaFacebook, FaLinkedin, FaYoutube, FaPhone, FaWhatsapp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const phone = '0725822740';
   const whatsappUrl = `https://wa.me/${phone.replace(/^0/, '254')}`;
+  const onYoutubeClick = (event) => {
+    event.preventDefault();
+    window.alert('YouTube channel coming soon.');
+  };
 
   return (
     <footer className="bg-primary-green text-white py-12">
@@ -55,7 +59,7 @@ export default function Footer() {
           </p>
           <div className="flex gap-4">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/rekless.feddy"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -64,27 +68,17 @@ export default function Footer() {
               <FaFacebook />
             </a>
             <a
-              href="https://x.com"
+              href="https://www.linkedin.com/in/farmers-nation-2920253b0?utm_source=share_via&utm_content=profile&utm_medium=member_android"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="X"
+              aria-label="LinkedIn"
               className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition"
             >
-              <FaTwitter />
+              <FaLinkedin />
             </a>
             <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition"
-            >
-              <FaInstagram />
-            </a>
-            <a
-              href="https://youtube.com"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#youtube-coming-soon"
+              onClick={onYoutubeClick}
               aria-label="YouTube"
               className="bg-opacity-20 bg-white p-3 rounded-full hover:bg-light-green transition"
             >

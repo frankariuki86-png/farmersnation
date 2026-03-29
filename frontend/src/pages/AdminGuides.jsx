@@ -97,11 +97,11 @@ export default function AdminGuides() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-primary-green">Farming Guides Management</h1>
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+        <h1 className="text-2xl md:text-3xl font-bold text-primary-green">Farming Guides Management</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-light-green text-primary-green px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-accent-green transition"
+          className="bg-light-green text-primary-green px-4 py-2 rounded-lg font-semibold inline-flex items-center gap-2 hover:bg-accent-green transition"
         >
           <FaPlus /> New Guide
         </button>
@@ -182,7 +182,7 @@ export default function AdminGuides() {
         </div>
       ) : (
         <div className="bg-white rounded-lg shadow-lg overflow-x-auto">
-          <table className="w-full">
+          <table className="hidden md:table w-full">
             <thead className="bg-primary-green text-white">
               <tr>
                 <th className="px-6 py-3 text-left">Title</th>
@@ -243,6 +243,42 @@ export default function AdminGuides() {
               )}
             </tbody>
           </table>
+
+          <div className="md:hidden divide-y">
+            {guides.map((guide) => (
+              <div key={guide.id} className="p-4 space-y-2">
+                <p className="font-semibold text-primary-green">{guide.title}</p>
+                <p className="text-sm text-gray-600 capitalize">Category: {guide.category}</p>
+                <p className="text-sm text-gray-600">Views: {guide.views || 0} | Downloads: {guide.downloads || 0}</p>
+                <div>
+                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                    guide.is_published ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'
+                  }`}>
+                    {guide.is_published ? 'Published' : 'Draft'}
+                  </span>
+                </div>
+                {guide.ebook_url && (
+                  <a
+                    href={getAssetUrl(guide.ebook_url)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 text-sm underline"
+                  >
+                    Open PDF/Doc
+                  </a>
+                )}
+                <div className="flex items-center gap-4 pt-1">
+                  <button className="text-blue-600 hover:text-blue-800 inline-flex items-center gap-1" onClick={() => handleEdit(guide)}>
+                    <FaEdit /> Edit
+                  </button>
+                  <button onClick={() => handleDelete(guide.id)} className="text-red-600 hover:text-red-800 inline-flex items-center gap-1">
+                    <FaTrash /> Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+            {!guides.length && <p className="p-4 text-gray-500">No guides found.</p>}
+          </div>
         </div>
       )}
     </div>

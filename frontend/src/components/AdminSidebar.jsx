@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaBook, FaBloggerB, FaStore, FaUsers, FaSignOutAlt, FaBars, FaTimes, FaChalkboardTeacher, FaTractor, FaChartLine } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/authStore';
 
 export default function AdminSidebar() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuthStore();
@@ -24,12 +24,19 @@ export default function AdminSidebar() {
     navigate('/login');
   };
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      setIsOpen(true);
+    }
+  }, []);
+
   return (
     <>
       {/* Mobile Toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 bg-primary-green text-white p-2 rounded"
+        className="md:hidden fixed top-3 left-3 z-50 bg-primary-green text-white p-2 rounded"
+        aria-label="Toggle admin menu"
       >
         {isOpen ? <FaTimes /> : <FaBars />}
       </button>
@@ -41,8 +48,13 @@ export default function AdminSidebar() {
         }`}
       >
         <div className="p-6 border-b border-secondary-green">
-          <h2 className="text-2xl font-bold text-light-green">ADMIN PANEL</h2>
-          <p className="text-sm text-gray-300">FARMERS NATION</p>
+          <div className="flex items-center gap-3">
+            <img src="/farmersnation logo.jpeg" alt="Farmers Nation" className="h-10 w-10 rounded-full object-cover border border-light-green" />
+            <div>
+              <h2 className="text-xl font-bold text-light-green">ADMIN PANEL</h2>
+              <p className="text-xs text-gray-300">FARMERS NATION</p>
+            </div>
+          </div>
         </div>
 
         <nav className="mt-8">
@@ -69,7 +81,7 @@ export default function AdminSidebar() {
 
         <button
           onClick={handleLogout}
-          className="absolute bottom-6 left-6 right-6 flex items-center gap-2 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold transition w-52"
+          className="absolute bottom-6 left-6 right-6 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold transition"
         >
           <FaSignOutAlt />
           Logout

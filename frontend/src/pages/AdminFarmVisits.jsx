@@ -56,9 +56,9 @@ export default function AdminFarmVisits() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-primary-green">Farm Visit Bookings</h1>
+      <h1 className="text-2xl md:text-3xl font-bold text-primary-green">Farm Visit Bookings</h1>
       <div className="bg-white rounded-lg shadow-lg overflow-x-auto">
-        <table className="w-full">
+        <table className="hidden md:table w-full">
           <thead className="bg-primary-green text-white">
             <tr>
               <th className="px-4 py-3 text-left">Name</th>
@@ -102,6 +102,31 @@ export default function AdminFarmVisits() {
             )}
           </tbody>
         </table>
+
+        <div className="md:hidden divide-y">
+          {rows.map((row) => (
+            <div key={row.id} className="p-4 space-y-2">
+              <p className="font-semibold text-primary-green">{row.requester_name}</p>
+              <p className="text-sm text-gray-600">Phone: {row.phone}</p>
+              <p className="text-sm text-gray-600">Type: {labelVisitType(row.visit_type)}</p>
+              <p className="text-sm text-gray-600">Location: {row.farm_location}</p>
+              <select
+                value={row.status}
+                onChange={(e) => updateStatus(row.id, e.target.value)}
+                className="border rounded p-2 text-sm w-full"
+              >
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+                <option value="completed">Completed</option>
+              </select>
+              <button onClick={() => deleteRow(row.id)} className="text-red-600 hover:text-red-800 inline-flex items-center gap-1">
+                <FaTrash /> Delete
+              </button>
+            </div>
+          ))}
+          {!rows.length && <p className="p-4 text-gray-500">No farm visit bookings yet.</p>}
+        </div>
       </div>
     </div>
   );

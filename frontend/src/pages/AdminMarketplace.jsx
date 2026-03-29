@@ -124,8 +124,8 @@ export default function AdminMarketplace() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-primary-green">Marketplace Management</h1>
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+        <h1 className="text-2xl md:text-3xl font-bold text-primary-green">Marketplace Management</h1>
         <button
           onClick={() => {
             if (showForm && !editingId) {
@@ -135,7 +135,7 @@ export default function AdminMarketplace() {
             setShowForm(true);
             setEditingId(null);
           }}
-          className="bg-light-green text-primary-green px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-accent-green transition"
+          className="bg-light-green text-primary-green px-4 py-2 rounded-lg font-semibold inline-flex items-center gap-2 hover:bg-accent-green transition"
         >
           <FaPlus /> New Product
         </button>
@@ -234,7 +234,7 @@ export default function AdminMarketplace() {
       )}
 
       <div className="bg-white rounded-lg shadow-lg overflow-x-auto">
-        <table className="w-full">
+        <table className="hidden md:table w-full">
           <thead className="bg-primary-green text-white">
             <tr>
               <th className="px-6 py-3 text-left">Photo</th>
@@ -282,6 +282,34 @@ export default function AdminMarketplace() {
             )}
           </tbody>
         </table>
+
+        <div className="md:hidden divide-y">
+          {products.map((item) => (
+            <div key={item.id} className="p-4 space-y-2">
+              <div className="flex items-start gap-3">
+                {item.image_url ? (
+                  <img src={getAssetUrl(item.image_url)} alt={item.name} className="w-14 h-14 object-cover rounded" />
+                ) : (
+                  <div className="w-14 h-14 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-600">No Image</div>
+                )}
+                <div>
+                  <p className="font-semibold text-primary-green">{item.name}</p>
+                  <p className="text-sm text-gray-600 capitalize">{item.category}</p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600">KSH {item.price} | Stock: {item.stock}</p>
+              <div className="flex items-center gap-4 pt-1">
+                <button onClick={() => handleEdit(item)} className="text-blue-600 hover:text-blue-800 inline-flex items-center gap-1">
+                  <FaEdit /> Edit
+                </button>
+                <button onClick={() => handleDelete(item.id)} className="text-red-600 hover:text-red-800 inline-flex items-center gap-1">
+                  <FaTrash /> Delete
+                </button>
+              </div>
+            </div>
+          ))}
+          {!products.length && <p className="p-4 text-gray-500">No products found.</p>}
+        </div>
       </div>
     </div>
   );

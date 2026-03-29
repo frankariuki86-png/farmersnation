@@ -108,8 +108,8 @@ export default function AdminUsers() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-primary-green">Admin Users Management</h1>
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+        <h1 className="text-2xl md:text-3xl font-bold text-primary-green">Admin Users Management</h1>
         <button
           onClick={() => {
             if (showForm && !editingId) {
@@ -121,7 +121,7 @@ export default function AdminUsers() {
             setEditingId(null);
             setFormData(initialForm);
           }}
-          className="bg-light-green text-primary-green px-4 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-accent-green transition"
+          className="bg-light-green text-primary-green px-4 py-2 rounded-lg font-semibold inline-flex items-center gap-2 hover:bg-accent-green transition"
         >
           <FaPlus /> New Admin
         </button>
@@ -188,7 +188,7 @@ export default function AdminUsers() {
       )}
 
       <div className="bg-white rounded-lg shadow-lg overflow-x-auto">
-        <table className="w-full">
+        <table className="hidden md:table w-full">
           <thead className="bg-primary-green text-white">
             <tr>
               <th className="px-6 py-3 text-left">Email</th>
@@ -220,6 +220,25 @@ export default function AdminUsers() {
             )}
           </tbody>
         </table>
+
+        <div className="md:hidden divide-y">
+          {admins.map((admin) => (
+            <div key={admin.id} className="p-4 space-y-2">
+              <p className="font-semibold text-primary-green">{[admin.first_name, admin.last_name].filter(Boolean).join(' ') || 'Admin User'}</p>
+              <p className="text-sm text-gray-600 break-all">{admin.email}</p>
+              <p className="text-sm text-gray-600">Phone: {admin.phone || '-'}</p>
+              <div className="flex items-center gap-4 pt-1">
+                <button className="text-blue-600 hover:text-blue-800 inline-flex items-center gap-1" onClick={() => handleEdit(admin)}>
+                  <FaEdit /> Edit
+                </button>
+                <button className="text-red-600 hover:text-red-800 inline-flex items-center gap-1" onClick={() => handleDelete(admin.id)}>
+                  <FaTrash /> Delete
+                </button>
+              </div>
+            </div>
+          ))}
+          {!admins.length && <p className="p-4 text-gray-500">No admin users found.</p>}
+        </div>
       </div>
     </div>
   );

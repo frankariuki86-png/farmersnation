@@ -26,7 +26,7 @@ export default function HeroSection() {
             Start Farming
           </Link>
           <a
-            href="https://wa.me/254725822740"
+            href="https://chat.whatsapp.com/FDXsCKkOMOoBTPaQsrybPn?mode=gi_t"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block border-2 border-light-green text-light-green px-8 py-4 rounded-lg font-bold text-lg hover:bg-light-green hover:text-primary-green transform hover:-translate-y-1 transition"

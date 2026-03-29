@@ -77,7 +77,7 @@ export default function HomePage() {
             Connect with thousands of progressive farmers across Africa. Share experiences, ask questions, and grow together.
           </p>
           <a
-            href="https://wa.me/254725822740"
+            href="https://chat.whatsapp.com/FDXsCKkOMOoBTPaQsrybPn?mode=gi_t"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-light-green text-primary-green px-8 py-3 rounded-lg font-bold text-lg hover:bg-accent-green transform hover:-translate-y-1 transition"

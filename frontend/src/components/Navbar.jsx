@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaLeaf, FaMoon, FaSun, FaBars, FaTimes } from 'react-icons/fa';
+import { FaMoon, FaSun, FaBars, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import useAuthStore from '../store/authStore';
 
@@ -14,7 +14,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 text-xl font-bold">
-            <FaLeaf className="text-light-green text-2xl" />
+            <img src="/farmersnation logo.jpeg" alt="Farmers Nation" className="h-9 w-9 rounded-full object-cover border border-light-green" />
             <span>FARMERS NATION</span>
           </Link>
 
