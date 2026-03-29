@@ -51,7 +51,18 @@ const loginLimiter = rateLimit({
     max: 5, // Limit login to 5 attempts per 15 minutes
     message: 'Too many login attempts, please try again later',
     standardHeaders: true,
-    legacyHeaders: false
+    legacyHeaders: false,
+    skip: (req) => {
+        const ip = req.ip || req.socket?.remoteAddress || '';
+        const forwardedFor = (req.headers['x-forwarded-for'] || '').toString();
+
+        // Avoid lockouts during local development/testing.
+        return ip === '::1'
+            || ip === '127.0.0.1'
+            || ip === '::ffff:127.0.0.1'
+            || forwardedFor.includes('127.0.0.1')
+            || forwardedFor.includes('::1');
+    }
 });
 
 app.use(pinoHttp({ logger }));

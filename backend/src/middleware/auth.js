@@ -28,7 +28,7 @@ const verifyAdmin = (req, res, next) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_super_secret_jwt_key_here');
         
-        if (decoded.role !== 'admin') {
+        if ((decoded.role || '').toLowerCase() !== 'admin') {
             return res.status(403).json({ error: 'Admin access required' });
         }
 

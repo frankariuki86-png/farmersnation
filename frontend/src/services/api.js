@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const normalizeApiBaseUrl = (value) => {
-  const fallback = 'http://localhost:5000/api';
+  const isBrowser = typeof window !== 'undefined';
+  const host = isBrowser ? window.location.hostname : '';
+  const isLocalHost = host === 'localhost' || host === '127.0.0.1';
+  const fallback = isLocalHost ? 'http://localhost:5000/api' : 'https://farmersnation.onrender.com/api';
   if (!value || typeof value !== 'string') return fallback;
 
   let normalized = value.trim().replace(/\/+$/, '');

@@ -32,7 +32,7 @@ export default function Navbar() {
             {user ? (
               <>
                 <Link to="/profile" className="hover:text-light-green transition">Profile</Link>
-                {user.role === 'admin' && (
+                {(user.role || '').toLowerCase() === 'admin' && (
                   <Link to="/admin" className="bg-light-green text-gray-800 px-4 py-2 rounded hover:bg-accent-green transition">
                     Admin
                   </Link>
@@ -87,7 +87,7 @@ export default function Navbar() {
             {user ? (
               <>
                 <Link to="/profile" className="block py-2">Profile</Link>
-                {user.role === 'admin' && (
+                {(user.role || '').toLowerCase() === 'admin' && (
                   <Link to="/admin" className="block bg-light-green text-gray-800 px-4 py-2 rounded mt-2">
                     Admin Dashboard
                   </Link>
