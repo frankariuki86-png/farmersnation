@@ -21,7 +21,10 @@ const storage = multer.diskStorage({
 
 // File filter for uploading only specific file types
 const fileFilter = (req, file, cb) => {
-    const allowedExtensions = new Set(['.pdf', '.doc', '.docx', '.txt', '.jpg', '.jpeg', '.png', '.webp']);
+    const allowedExtensions = new Set([
+        '.pdf', '.doc', '.docx', '.txt',
+        '.jpg', '.jpeg', '.png', '.webp', '.gif', '.jfif', '.avif', '.heic', '.heif'
+    ]);
     const documentMimeTypes = new Set([
         'application/pdf',
         'application/msword',
@@ -32,10 +35,15 @@ const fileFilter = (req, file, cb) => {
         'image/jpeg',
         'image/jpg',
         'image/png',
-        'image/webp'
+        'image/webp',
+        'image/gif',
+        'image/avif',
+        'image/heic',
+        'image/heif',
+        'image/pjpeg'
     ]);
     const documentExtensions = new Set(['.pdf', '.doc', '.docx', '.txt']);
-    const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp']);
+    const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.jfif', '.avif', '.heic', '.heif']);
     const extname = path.extname(file.originalname).toLowerCase();
     const normalizedMimeType = (file.mimetype || '').toLowerCase();
     const extensionAllowed = allowedExtensions.has(extname);
@@ -51,7 +59,7 @@ const fileFilter = (req, file, cb) => {
     if (extensionAllowed && mimeMatchesExtension) {
         return cb(null, true);
     } else {
-        cb(new Error('Only document files (PDF, DOC, DOCX, TXT) and photos (JPG, JPEG, PNG, WEBP) are allowed'));
+        cb(new Error('Only document files (PDF, DOC, DOCX, TXT) and photos (JPG, JPEG, PNG, WEBP, GIF, JFIF, AVIF, HEIC, HEIF) are allowed'));
     }
 };
 
