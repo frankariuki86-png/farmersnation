@@ -15,10 +15,38 @@ export const getBackendOrigin = () => {
 export const getAssetUrl = (assetPath) => {
   if (!assetPath) return '';
 
-  if (/^https?:\/\//i.test(assetPath)) {
-    return assetPath;
+  const backendOrigin = getBackendOrigin();
+  const normalizedInput = String(assetPath).trim().replace(/\\/g, '/');
+
+  if (!normalizedInput) return '';
+
+  // If a localhost URL was saved in DB, rewrite it to the configured backend origin.
+  if (/^https?:\/\//i.test(normalizedInput)) {
+    try {
+      const parsed = new URL(normalizedInput);
+      const isLocalHost = parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1';
+      if (isLocalHost) {
+        return `${backendOrigin}${parsed.pathname}`;
+      }
+      return normalizedInput;
+    } catch (error) {
+      return normalizedInput;
+    }
   }
 
-  const normalizedPath = assetPath.startsWith('/') ? assetPath : `/${assetPath}`;
-  return `${getBackendOrigin()}${normalizedPath}`;
+  // Handle legacy paths such as /api/uploads/... or api/uploads/...
+  let normalizedPath = normalizedInput.replace(/^\/api(?=\/uploads\/)/i, '');
+  normalizedPath = normalizedPath.replace(/^api(?=\/uploads\/)/i, '');
+
+  // If path contains /uploads somewhere in the middle, keep canonical uploads segment.
+  const uploadsIndex = normalizedPath.toLowerCase().indexOf('/uploads/');
+  if (uploadsIndex > 0) {
+    normalizedPath = normalizedPath.slice(uploadsIndex);
+  }
+
+  if (!normalizedPath.startsWith('/')) {
+    normalizedPath = `/${normalizedPath}`;
+  }
+
+  return `${backendOrigin}${normalizedPath}`;
 };
