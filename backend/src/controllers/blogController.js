@@ -7,6 +7,39 @@ const toBoolean = (value, fallback = false) => {
     return Boolean(value);
 };
 
+const normalizeBaseUrl = (value) => (value || '').trim().replace(/\/+$/, '');
+
+const resolveBackendBaseUrl = (req) => {
+    const configured = normalizeBaseUrl(process.env.BACKEND_URL);
+    if (configured) return configured;
+
+    const forwardedProto = (req.headers['x-forwarded-proto'] || '').toString().split(',')[0].trim();
+    const protocol = forwardedProto || req.protocol || 'https';
+    return `${protocol}://${req.get('host')}`;
+};
+
+const normalizeBlogImageUrl = (req, imageUrl) => {
+    if (!imageUrl) return imageUrl;
+    const value = String(imageUrl).trim().replace(/\\/g, '/');
+    if (!value) return null;
+
+    if (/^https?:\/\//i.test(value)) {
+        return value;
+    }
+
+    const backendBase = resolveBackendBaseUrl(req);
+    const normalizedPath = value.startsWith('/') ? value : `/${value}`;
+    return `${backendBase}${normalizedPath}`;
+};
+
+const attachBlogImageUrls = (req, blog) => {
+    if (!blog) return blog;
+    return {
+        ...blog,
+        image_url: normalizeBlogImageUrl(req, blog.image_url)
+    };
+};
+
 // Create blog (Admin only)
 const createBlog = async (req, res) => {
     try {
@@ -27,7 +60,7 @@ const createBlog = async (req, res) => {
             publish
         );
 
-        res.status(201).json({ success: true, data: blog });
+        res.status(201).json({ success: true, data: attachBlogImageUrls(req, blog) });
     } catch (error) {
         console.error('Blog creation error:', error.message, error.stack);
         res.status(500).json({ error: error.message || 'Failed to create blog', details: error.code });
@@ -41,7 +74,7 @@ const getBlogs = async (req, res) => {
         const offset = (page - 1) * limit;
 
         const blogs = await BlogModel.getPublishedBlogs(limit, offset);
-        res.status(200).json({ success: true, data: blogs });
+        res.status(200).json({ success: true, data: blogs.map((blog) => attachBlogImageUrls(req, blog)) });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -53,7 +86,7 @@ const getAllBlogsAdmin = async (req, res) => {
         const { page = 1, limit = 50 } = req.query;
         const offset = (page - 1) * limit;
         const blogs = await BlogModel.getAllBlogs(limit, offset);
-        res.status(200).json({ success: true, data: blogs });
+        res.status(200).json({ success: true, data: blogs.map((blog) => attachBlogImageUrls(req, blog)) });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -69,7 +102,7 @@ const getBlogBySlug = async (req, res) => {
             return res.status(404).json({ error: 'Blog not found' });
         }
 
-        res.status(200).json({ success: true, data: blog });
+        res.status(200).json({ success: true, data: attachBlogImageUrls(req, blog) });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -101,7 +134,7 @@ const updateBlog = async (req, res) => {
             isPublished !== undefined ? toBoolean(isPublished, existingBlog.is_published) : existingBlog.is_published
         );
 
-        res.status(200).json({ success: true, data: blog });
+        res.status(200).json({ success: true, data: attachBlogImageUrls(req, blog) });
     } catch (error) {
         console.error('Blog update error:', error.message, error.stack);
         res.status(500).json({ error: error.message || 'Failed to update blog', details: error.code });
