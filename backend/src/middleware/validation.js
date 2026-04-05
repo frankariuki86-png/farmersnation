@@ -8,7 +8,7 @@ const handleValidationErrors = (req, res, next) => {
             success: false,
             error: 'Validation failed',
             details: errors.array().map(err => ({
-                field: err.param,
+                field: err.path || err.param,
                 message: err.msg
             }))
         });
@@ -87,11 +87,10 @@ const validateBlog = [
         .isLength({ min: 3, max: 200 })
         .withMessage('Title must be between 3 and 200 characters'),
     body('excerpt')
+        .optional({ checkFalsy: true })
         .trim()
-        .notEmpty()
-        .withMessage('Excerpt is required')
         .isLength({ min: 3, max: 500 })
-        .withMessage('Excerpt must be between 3 and 500 characters'),
+        .withMessage('Excerpt must be between 3 and 500 characters when provided'),
     body('content')
         .trim()
         .notEmpty()
@@ -99,9 +98,10 @@ const validateBlog = [
         .isLength({ min: 10 })
         .withMessage('Content must be at least 10 characters'),
     body('category')
+        .optional({ checkFalsy: true })
         .trim()
-        .notEmpty()
-        .withMessage('Category is required'),
+        .isLength({ min: 2, max: 100 })
+        .withMessage('Category must be between 2 and 100 characters when provided'),
     handleValidationErrors
 ];
 

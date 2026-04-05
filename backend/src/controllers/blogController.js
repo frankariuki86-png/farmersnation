@@ -13,14 +13,17 @@ const createBlog = async (req, res) => {
         const { title, excerpt, content, category, isPublished } = req.body;
         const publish = toBoolean(isPublished, false);
         const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+        const normalizedContent = (content || '').trim();
+        const normalizedExcerpt = (excerpt || '').trim() || normalizedContent.slice(0, 200);
+        const normalizedCategory = (category || '').trim() || 'general';
 
         const blog = await BlogModel.createBlog(
             title,
-            excerpt,
-            content,
+            normalizedExcerpt,
+            normalizedContent,
             imageUrl,
             req.user.id,
-            category,
+            normalizedCategory,
             publish
         );
 
@@ -84,14 +87,17 @@ const updateBlog = async (req, res) => {
         }
 
         const imageUrl = req.file ? `/uploads/${req.file.filename}` : existingBlog.image_url;
+        const normalizedContent = (content || existingBlog.content || '').trim();
+        const normalizedExcerpt = (excerpt || '').trim() || existingBlog.excerpt || normalizedContent.slice(0, 200);
+        const normalizedCategory = (category || '').trim() || existingBlog.category || 'general';
 
         const blog = await BlogModel.updateBlog(
             id,
             title || existingBlog.title,
-            excerpt || existingBlog.excerpt,
-            content || existingBlog.content,
+            normalizedExcerpt,
+            normalizedContent,
             imageUrl,
-            category || existingBlog.category,
+            normalizedCategory,
             isPublished !== undefined ? toBoolean(isPublished, existingBlog.is_published) : existingBlog.is_published
         );
 
