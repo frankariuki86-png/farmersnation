@@ -171,7 +171,7 @@ export default function AdminBlogs() {
           />
           <input
             type="file"
-            accept=".jpg,.jpeg,.png,.webp"
+            accept=".jpg,.jpeg,.png,.webp,.gif,.jfif,.avif,.heic,.heif"
             className="w-full p-2 border rounded"
             onChange={(e) => {
               const file = e.target.files?.[0] || null;
