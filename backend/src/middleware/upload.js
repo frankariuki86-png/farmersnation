@@ -22,23 +22,33 @@ const storage = multer.diskStorage({
 // File filter for uploading only specific file types
 const fileFilter = (req, file, cb) => {
     const allowedExtensions = new Set(['.pdf', '.doc', '.docx', '.txt', '.jpg', '.jpeg', '.png', '.webp']);
-    const allowedMimeTypes = new Set([
+    const documentMimeTypes = new Set([
         'application/pdf',
         'application/msword',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'text/plain',
+        'text/plain'
+    ]);
+    const imageMimeTypes = new Set([
         'image/jpeg',
         'image/jpg',
         'image/png',
-        'image/webp',
-        'application/octet-stream'
+        'image/webp'
     ]);
+    const documentExtensions = new Set(['.pdf', '.doc', '.docx', '.txt']);
+    const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp']);
     const extname = path.extname(file.originalname).toLowerCase();
+    const normalizedMimeType = (file.mimetype || '').toLowerCase();
     const extensionAllowed = allowedExtensions.has(extname);
-    const mimeAllowed = allowedMimeTypes.has((file.mimetype || '').toLowerCase());
+    const isGenericMime = normalizedMimeType === 'application/octet-stream';
 
-    // Accept known safe file extensions even when MIME type is generic/octet-stream.
-    if (extensionAllowed && (mimeAllowed || (file.mimetype || '').toLowerCase() === 'application/octet-stream')) {
+    const mimeMatchesExtension = documentExtensions.has(extname)
+        ? (documentMimeTypes.has(normalizedMimeType) || isGenericMime)
+        : imageExtensions.has(extname)
+            ? (imageMimeTypes.has(normalizedMimeType) || isGenericMime)
+            : false;
+
+    // Allow known file extensions only when MIME type matches expected category.
+    if (extensionAllowed && mimeMatchesExtension) {
         return cb(null, true);
     } else {
         cb(new Error('Only document files (PDF, DOC, DOCX, TXT) and photos (JPG, JPEG, PNG, WEBP) are allowed'));
