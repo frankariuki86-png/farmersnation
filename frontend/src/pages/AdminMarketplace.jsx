@@ -74,7 +74,7 @@ export default function AdminMarketplace() {
       payload.append('category', formData.category);
       payload.append('price', formData.price);
       payload.append('unit', formData.unit);
-      payload.append('stock', formData.stock);
+      payload.append('stock', formData.stock === '' ? '0' : formData.stock);
       payload.append('isAvailable', formData.isAvailable);
 
       if (formData.image) {
@@ -158,6 +158,7 @@ export default function AdminMarketplace() {
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
               className="w-full p-2 border rounded"
+              required
             />
             <input
               type="text"
@@ -165,6 +166,7 @@ export default function AdminMarketplace() {
               value={formData.unit}
               onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
               className="w-full p-2 border rounded"
+              required
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -182,6 +184,8 @@ export default function AdminMarketplace() {
               value={formData.stock}
               onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
               className="w-full p-2 border rounded"
+              min="0"
+              required
             />
           </div>
           <textarea
@@ -193,7 +197,7 @@ export default function AdminMarketplace() {
           />
           <input
             type="file"
-            accept=".jpg,.jpeg,.png,.webp"
+            accept=".jpg,.jpeg,.png,.webp,.gif,.jfif,.avif,.heic,.heif"
             className="w-full p-2 border rounded"
             onChange={(e) => {
               const file = e.target.files?.[0] || null;
