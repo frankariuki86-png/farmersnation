@@ -66,20 +66,8 @@ export default function GuidesPage() {
       }
 
       // Get download URL
-      const downloadResponse = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}/guides/${guideId}/download`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        }
-      );
-
-      if (!downloadResponse.ok) {
-        throw new Error('Download failed');
-      }
-
-      const data = await downloadResponse.json();
+      const downloadResponse = await guidesAPI.download(guideId);
+      const data = downloadResponse.data;
       if (data.success && data.downloadUrl) {
         // Open download link
         window.open(getAssetUrl(data.downloadUrl), '_blank');

@@ -155,7 +155,7 @@ export default function AdminBusinessPlans() {
           />
           <input
             type="file"
-            accept=".pdf,.doc,.docx,.txt"
+            accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.webp"
             className="w-full p-2 border rounded"
             onChange={(e) => setFormData({ ...formData, document: e.target.files?.[0] || null })}
             required={!editingId}
@@ -204,7 +204,7 @@ export default function AdminBusinessPlans() {
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:text-blue-800 underline"
                     >
-                      Open eBook
+                      Open File
                     </a>
                   ) : (
                     <span className="text-gray-500">No file</span>
@@ -252,7 +252,7 @@ export default function AdminBusinessPlans() {
                   rel="noopener noreferrer"
                   className="block text-blue-600 text-sm underline"
                 >
-                  Open eBook
+                  Open File
                 </a>
               )}
               <div className="flex items-center gap-4 pt-1">

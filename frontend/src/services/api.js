@@ -53,6 +53,7 @@ export const guidesAPI = {
   getAllAdmin: () => api.get('/guides/admin/all'),
   getByCategory: (category) => api.get(`/guides/category/${category}`),
   getById: (id) => api.get(`/guides/${id}`),
+  download: (id) => api.get(`/guides/${id}/download`),
   create: (data) => api.post('/guides', data, {
     headers: { 'Content-Type': 'multipart/form-data' }
   }),

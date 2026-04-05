@@ -145,7 +145,7 @@ export default function AdminGuides() {
           />
           <input
             type="file"
-            accept=".pdf,.doc,.docx"
+            accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.webp"
             className="w-full p-2 border rounded"
             onChange={(e) => setFormData({ ...formData, ebook: e.target.files?.[0] || null })}
           />
@@ -207,7 +207,7 @@ export default function AdminGuides() {
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:text-blue-800 underline"
                       >
-                        Open PDF/Doc
+                        Open File
                       </a>
                     ) : (
                       <span className="text-gray-500">No file</span>
@@ -264,7 +264,7 @@ export default function AdminGuides() {
                     rel="noopener noreferrer"
                     className="text-blue-600 text-sm underline"
                   >
-                    Open PDF/Doc
+                    Open File
                   </a>
                 )}
                 <div className="flex items-center gap-4 pt-1">
